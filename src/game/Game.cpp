@@ -51,7 +51,7 @@ void Game::gameLoop()
         SDL_Event event;
         while (SDL_PollEvent(&event))
         {
-            if ((event.type == SDL_QUIT) || (event.type == SDL_KEYDOWN && event.key.keysym.sym == 'q'))
+            if ((event.type == SDL_QUIT) || (event.type == SDL_KEYDOWN && event.key.keysym.sym == 'm'))
             {
                 std::cout << "Exit signal detected" << std::endl;
                 m_gameState = GameState::EXIT;
