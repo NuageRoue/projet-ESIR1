@@ -36,8 +36,6 @@ void UI::setupUI(SDL_Window* window, SDL_Renderer* renderer)
 
 void UI::setSelectWindow()
 {
-	
-
         ImGui::SetNextWindowPos(ImVec2(0, 600 - 200));
         ImGui::SetNextWindowSize(ImVec2(800, 200));
 
@@ -161,7 +159,7 @@ void UI::setFightWindow()
 
 }
 
-void UI::displayFightWindow()
+/*void UI::displayFightWindow()
 {
 	ImGui::BeginGroup();
 	ImGui::Text("Joueur");
@@ -178,6 +176,49 @@ void UI::displayFightWindow()
 	drawHealthBar(6, 20, ImVec2(200, 20));
 	ImGui::EndGroup();
 	ImGui::End();
+}*/
+
+void UI::displayFightWindow()
+{
+
+	ImVec2 spriteSize = ImVec2(128, 128);
+	ImVec4 gray = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
+	
+	ImGui::SetCursorPos(ImVec2(100,100));
+	
+	ImGui::BeginGroup();
+	ImGui::Text("Joueur");
+
+	drawHealthBar(13, 20, ImVec2(200, 20));
+	ImGui::SetCursorPosX(136);
+	ImGui::Dummy(spriteSize);
+	ImGui::GetWindowDrawList()->AddRectFilled(
+		ImGui::GetItemRectMin(), ImGui::GetItemRectMax(),
+		ImGui::GetColorU32(gray)
+	);
+
+    	// Barre de vie joueur
+	ImGui::EndGroup();
+
+	ImGui::SetCursorPos(ImVec2(500,100)); // Espace central pour aérer
+
+	// Groupe Ennemi
+	ImGui::BeginGroup();
+	ImGui::Text("Ennemi");
+
+	drawHealthBar(6, 20, ImVec2(200, 20));
+	// Placeholder : rectangle gris
+	ImGui::SetCursorPosX(536);
+	ImGui::Dummy(spriteSize);
+	ImGui::GetWindowDrawList()->AddRectFilled(
+		ImGui::GetItemRectMin(), ImGui::GetItemRectMax(),
+		ImGui::GetColorU32(gray)
+	);
+
+	// Barre de vie ennemi
+	ImGui::EndGroup();
+
+	ImGui::End(); // Terminer la fenêtre "Fight Panel"
 }
 
 void UI::drawHealthBar(int hp, int maxHP, ImVec2 size)
