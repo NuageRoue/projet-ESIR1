@@ -4,6 +4,8 @@
 #include <cmath>
 #include <utils/MathUtils.h>
 
+#include <utils/Vector2Grid.h>
+
 class Vector2
 {
   private:
@@ -17,6 +19,12 @@ class Vector2
     MathUtils::Scalar operator[](unsigned int index) const
     {
         return m_values[index];
+    }
+
+    Vector2 operator=(const Vector2Grid &v) 
+    {
+        m_values[0] = v.m_values[0];
+        m_values[1] = v.m_values[1];   
     }
 
     Vector2 operator+(const Vector2 &v) const
