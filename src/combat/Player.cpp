@@ -67,3 +67,7 @@ void Player::increaseXP(double gainedXP)
         xp += gainedXP;
     }
 }
+
+void Player::addItems(std::vector<Item*> itemsToAdd){
+    items.insert(itemsToAdd.begin(), itemsToAdd.end(), itemsToAdd.begin());
+}

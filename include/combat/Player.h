@@ -27,8 +27,8 @@ class Player : public Entity{
     const std::vector<Item*> & getItems() const;
 
     Attack * chooseAttack() const override;
-
     void increaseXP(double xp);
+    void addItems(std::vector<Item*> itemsToAdd);
 
 };
 

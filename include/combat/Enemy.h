@@ -25,7 +25,7 @@ class Enemy : public Entity{
     std::vector<Item*> chooseItem() const;
 
     const double &getXP() const;
-    const std::vector<std::tuple<Item*>> &getLootTable() const;
+    const std::vector<std::tuple<Item*, double>> &getLootTable() const;
 
 };
 
