@@ -23,12 +23,14 @@ Renderer::~Renderer()
 
 void Renderer::initialize()
 {
+    TextureManager::initialize();
     std::cout << "Initialize Renderer" << std::endl;
     m_singleton = std::unique_ptr<Renderer>(new Renderer());
 }
 
 void Renderer::finalize()
 {
+    TextureManager::finalize();
     m_singleton = nullptr;
 }
 

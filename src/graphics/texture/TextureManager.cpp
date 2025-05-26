@@ -1,24 +1,15 @@
 #include <graphics/texture/TextureManager.h>
+#include <graphics/texture/Texture.h>
 #include <cassert>
 
 std::unique_ptr<TextureManager> TextureManager::m_singleton = nullptr;
 
-std::shared_ptr<Texture> TextureManager::loadTexture(const std::string &filename, int valueMap)
-{
-    // Check if the key is already loaded
-    auto it = m_textures.find(valueMap);
-    if (it != m_textures.end())
-    {
-        return it->second;
-    }
+void TextureManager::initialize(){
+    m_singleton = std::unique_ptr<TextureManager>(new TextureManager());
+}
 
-    // Create and load the texture
-    std::shared_ptr<Texture> texture = std::make_shared<Texture>(filename);
-
-    // Store the texture
-    m_textures[valueMap] = texture;
-
-    return texture;
+void TextureManager::finalize(){
+    m_singleton = nullptr;
 }
 
 std::shared_ptr<Texture> TextureManager::loadTexture(const std::string &filename, const std::string &value)
@@ -39,16 +30,6 @@ std::shared_ptr<Texture> TextureManager::loadTexture(const std::string &filename
     return texture;
 }
 
-Texture *TextureManager::get(int valueMap) const
-{
-    auto it = m_textures.find(valueMap);
-    if (it != m_textures.end())
-    {
-        return it->second.get();
-    }
-    return nullptr;
-}
-
 Texture *TextureManager::get(const std::string &value) const
 {
     auto it = m_textureEntities.find(value);
@@ -57,12 +38,6 @@ Texture *TextureManager::get(const std::string &value) const
         return it->second.get();
     }
     return nullptr;
-}
-
-void TextureManager::removeTexture(int valueMap)
-{
-    assert(valueMap > 0 && valueMap < m_textures.size());
-    m_textures.erase(valueMap);
 }
 
 void TextureManager::removeTexture(const std::string &value)
@@ -87,9 +62,5 @@ TextureManager::~TextureManager()
 
 TextureManager *TextureManager::getInstance()
 {
-    if (m_singleton == nullptr)
-    {
-        m_singleton = std::unique_ptr<TextureManager>(new TextureManager());
-    }
     return m_singleton.get();
 }

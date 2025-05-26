@@ -6,17 +6,18 @@
 #include <unordered_map>
 
 #include <graphics/Renderer.h>
-#include <graphics/texture/Texture.h>
+class Texture;
 
 class TextureManager
 {
-
   protected:
     static std::unique_ptr<TextureManager> m_singleton;
 
     std::unordered_map<int, std::shared_ptr<Texture>> m_textures;
 
     std::unordered_map<std::string, std::shared_ptr<Texture>> m_textureEntities;
+
+    friend class Renderer;
 
     TextureManager();
 
@@ -27,17 +28,17 @@ class TextureManager
 
     static TextureManager *getInstance();
 
-    std::shared_ptr<Texture> loadTexture(const std::string &filename, int valueMap);
     std::shared_ptr<Texture> loadTexture(const std::string &filename, const std::string &value);
 
-    Texture *get(int valueMap) const;
     Texture *get(const std::string &value) const;
-
-    void removeTexture(int valueMap);
 
     void removeTexture(const std::string &value);
 
     void removeAllTexture();
+
+    static void initialize();
+
+    static void finalize();
 };
 
 #endif

@@ -16,6 +16,7 @@
 #include <iostream>
 
 #include <graphics/texture/Texture.h>
+#include <graphics/texture/TextureManager.h>
 #include <utils/Vector2.h>
 
 class Texture;
