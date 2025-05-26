@@ -28,7 +28,8 @@ void Map::render(const Vector2 &ref)
         {
             type = m_map.at(row).at(column);
 
-            SDL_Rect destRect = {column * Constants::tile + ref[0], row * Constants::tile + ref[1], Constants::tile, Constants::tile};
+            SDL_Rect destRect = {static_cast<int>((column + ref[0]) * Constants::tile),
+                                 static_cast<int>((row + ref[1]) * Constants::tile), Constants::tile, Constants::tile};
 
             Renderer::getInstance()->drawTexture(getTexture().at(type)->get(), nullptr, &destRect);
         }

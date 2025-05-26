@@ -42,5 +42,5 @@ void Hero::update()
         // std::cout << c << std::endl;
     }
 
-    setPosition(getPosition() + delta * Constants::tile);
+    setPosition(getPosition() + delta);
 }

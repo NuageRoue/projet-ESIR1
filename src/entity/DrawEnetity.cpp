@@ -18,10 +18,12 @@ DrawEntity::DrawEntity(const Vector2 &position, const std::string &name, const u
 void DrawEntity::render(const Vector2 &ref)
 {
     Renderer &render = *Renderer::getInstance();
+    const Vector2 position = (getPosition() + Vector2(0.5, 0.5)) * Constants::tile;
+    const Vector2 taille = Vector2(1, 1) * Constants::tile;
 
     for (const std::shared_ptr<Texture> texture : m_textures)
     {
-        render.drawTexture(texture.get(), getPosition(), Vector2(Constants::tile, Constants::tile), 0.0f);
+        render.drawTexture(texture.get(), position, taille, 0.0f);
     }
 }
 

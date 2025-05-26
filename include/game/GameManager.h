@@ -6,11 +6,9 @@
 #include <string>
 #include <unordered_map>
 
-#include <entity/Entity.h>
-#include <entity/Hero.h>
-#include <entity/Map.h>
-
 #include <game/Game.h>
+
+#include <game/level/LevelBase.h>
 
 class GameManager
 {
@@ -21,11 +19,7 @@ class GameManager
     static std::unique_ptr<GameManager> m_singleton;
 
     std::set<char> *m_pressed;
-    std::vector<std::unique_ptr<Entity>> m_entites; // set avec toutes les entites du jeu
-
-    Hero *m_hero;
-    Map *m_map;
-    Vector2 m_ref;
+    std::unique_ptr<LevelBase> m_current;
 
   private:
     GameManager();
@@ -37,6 +31,7 @@ class GameManager
     static void initialize();
     static void finalize();
     static GameManager &getInstance();
+    static LevelBase &getLevel();
 
     // update render
     void render();
