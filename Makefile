@@ -1,7 +1,7 @@
 # Compilateur et options
 CXX = g++
-CXXFLAGS_DEBUG = -pedantic -Wnull-dereference -Wall -Wextra -std=c++11 -ggdb `pkg-config --cflags sdl2` -I./include
-LDFLAGS = `pkg-config --libs sdl2 SDL2_gfx`
+CXXFLAGS_DEBUG = -pedantic -Wnull-dereference -Wall -Wextra -std=c++11 -ggdb `pkg-config --cflags sdl2 SDL2_ttf SDL2_gfx SDL2_image` -I./include
+LDFLAGS = `pkg-config --libs sdl2 SDL2_ttf SDL2_gfx SDL2_image`
 
 # Répertoires
 SRC_DIR = src

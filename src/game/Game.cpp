@@ -1,0 +1,120 @@
+#include <entity/Entity.h>
+#include <graphics/Renderer.h>
+
+#include <iostream>
+
+#include <game/Game.h>
+
+Game::Game() : m_gameState(GameState::PLAY)
+{
+    initGame();
+    loadGame("assets/maps/map.txt");
+}
+
+Game::~Game()
+{
+}
+
+void Game::run()
+{
+    gameLoop();
+    endGame();
+}
+
+void Game::initGame()
+{
+
+    // 1 - Initialization of SDL
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0)
+    {
+        SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
+        exit(3);
+    }
+
+    Renderer::initialize();
+
+    // Load Texture
+    // Theme::loadTextureMap();
+}
+
+void Game::loadGame(const std::string &filename)
+{
+    // m_map = std::make_shared<Map>(filename);
+}
+
+void Game::gameLoop()
+{
+    // récupérer les touches appuyées
+    // vérifier si on appuie que q -> quitte le jeu
+    SDL_Event event;
+    while (SDL_PollEvent(&event))
+    {
+        switch (event.type)
+        {
+        case SDL_QUIT:
+            std::cout << "Exit signal detected" << ::std::endl;
+            m_gameState = GameState::EXIT;
+            break;
+        case SDL_KEYDOWN:
+            switch (event.key.keysym.sym)
+            {
+            case 'q':
+                std::cout << "Exit signal detected" << ::std::endl;
+                m_gameState = GameState::EXIT;
+                break;
+            default:
+                break;
+            }
+        default:
+            break;
+        }
+    }
+
+    //// The main event loop
+    while (m_gameState != GameState::EXIT)
+    {
+        Timer::getInstance().start();
+
+        // 2 - We update the simulation
+        update();
+
+        // 3 - We render the scene
+        render();
+
+        // 4 - We limit the frame rate
+        Uint64 frameTime = Timer::getInstance().getTicks();
+        if (TICKS_PER_FRAME > frameTime)
+        {
+            SDL_Delay(TICKS_PER_FRAME - frameTime);
+        }
+    }
+}
+
+void Game::update()
+{
+    for (auto ite = m_entites.begin(); ite != m_entites.end(); ite++)
+    {
+        (*ite)->update();
+    }
+}
+
+void Game::render()
+{
+    // m_map->drawMap();
+
+    // affichage entites
+    for (auto ite = m_entites.begin(); ite != m_entites.end(); ite++)
+    {
+        (*ite)->render();
+    }
+
+    Renderer::getInstance()->render();
+}
+
+void Game::endGame()
+{
+    std::cout << "Shutting down renderer..." << std::endl;
+    Renderer::finalize();
+    std::cout << "Shutting down SDL" << std::endl;
+    SDL_Quit();
+}

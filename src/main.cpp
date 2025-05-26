@@ -1,7 +1,9 @@
+#include <game/Game.h>
 #include <iostream>
 
 int main()
 {
-    std::cout << "hello w" << std::endl;
+    Game game;
+    game.run();
     return 0;
 }
