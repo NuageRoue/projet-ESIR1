@@ -7,6 +7,7 @@
 #include <unordered_map>
 
 #include <entity/Entity.h>
+#include <entity/Hero.h>
 
 #include <game/Game.h>
 
@@ -17,9 +18,11 @@ class GameManager
 
   private:
     static std::unique_ptr<GameManager> m_singleton;
-    
+
     std::set<char> *m_pressed;
     std::set<std::unique_ptr<Entity>> m_entites; // set avec toutes les entites du jeu
+
+    std::unique_ptr<Hero> *m_hero;
 
   private:
     GameManager();

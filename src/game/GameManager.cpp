@@ -7,10 +7,13 @@
 
 std::unique_ptr<GameManager> GameManager::m_singleton = nullptr;
 
-GameManager::GameManager() : m_entites(), m_pressed(nullptr)
+GameManager::GameManager() : m_entites(), m_pressed(nullptr), m_hero(nullptr)
 {
-    m_entites.insert(std::unique_ptr<Hero>(new Hero(Vector2(Constants::tile, Constants::tile) / 2, 2,
-                                                    std::vector<std::string>{"./assets/tiles/liquidWater.png"})));
+    auto hero = std::unique_ptr<Hero>(new Hero(Vector2(Constants::tile, Constants::tile) / 2, 2,
+                                               std::vector<std::string>{"./assets/tiles/liquidWater.png"}));
+    m_hero = &hero;
+
+    m_entites.insert(std::move(hero));
 }
 
 void GameManager::initialize()
