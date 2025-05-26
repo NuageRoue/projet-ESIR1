@@ -37,3 +37,4 @@ src/main.cpp
 compile_commands.json
 ./main
 .vscode
+./.mainC.cpp
