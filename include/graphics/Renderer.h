@@ -5,18 +5,11 @@
 #include <SDL2/SDL2_gfxPrimitives.h>
 #include <SDL2/SDL_ttf.h>
 
-#include <utils/Config.h>
-
 #include <memory>
-
-#include <algorithm>
-#include <map>
-#include <vector>
-
-#include <iostream>
 
 #include <graphics/texture/Texture.h>
 #include <graphics/texture/TextureManager.h>
+#include <utils/Config.h>
 #include <utils/Vector2.h>
 
 class Texture;
@@ -33,29 +26,27 @@ class Renderer
     Renderer();
 
   public:
+    ~Renderer();
+
+    // singleton no cp
     Renderer(const Renderer &) = delete;
     void operator=(const Renderer &) = delete;
 
-    ~Renderer();
-
-    SDL_Renderer *getSdlRenderer() const
-    {
-        return m_renderer;
-    }
-
+    // singleton things
     static void initialize();
-
     static void finalize();
+    static Renderer &getInstance();
 
-    static Renderer *getInstance();
+    // renderer
+    SDL_Renderer *getSdlRenderer() const;
 
+    // render
     void render();
 
-    void drawString(const std::string &text, Vector2 const &position, TTF_Font *font, const SDL_Color &color,
-                    double size);
-
+    // draw
+    void drawString(const std::string &text, Vector2F const &position, TTF_Font *font, const SDL_Color &color);
     void drawTexture(SDL_Texture *texture, const SDL_Rect *src, const SDL_Rect *dest);
-    void drawTexture(const Texture *texture, const Vector2 &center, const Vector2 &scale, float rotation);
+    void drawTexture(const Texture *texture, const Vector2F &center, const Vector2F &scale, float rotation);
 };
 
 #endif

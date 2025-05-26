@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include <graphics/Renderer.h>
 
 std::unique_ptr<Renderer> Renderer::m_singleton = nullptr;
@@ -11,30 +13,32 @@ Renderer::Renderer()
     }
     SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_BLEND);
     SDL_SetWindowTitle(m_window, "Jeu ESIR");
+
+    TextureManager::initialize(); // init texture manager
 }
 
 Renderer::~Renderer()
 {
+    TextureManager::finalize(); // end texture manager
+
     SDL_DestroyRenderer(m_renderer);
     SDL_DestroyWindow(m_window);
 }
 
 void Renderer::initialize()
 {
-    TextureManager::initialize();
     std::cout << "Initialize Renderer" << std::endl;
     m_singleton = std::unique_ptr<Renderer>(new Renderer());
 }
 
 void Renderer::finalize()
 {
-    TextureManager::finalize();
     m_singleton = nullptr;
 }
 
-Renderer *Renderer::getInstance()
+Renderer &Renderer::getInstance()
 {
-    return m_singleton.get();
+    return *m_singleton;
 }
 
 void Renderer::render()
@@ -45,8 +49,12 @@ void Renderer::render()
     SDL_RenderClear(m_renderer);
 }
 
-void Renderer::drawString(const std::string &text, Vector2 const &position, TTF_Font *font, const SDL_Color &color,
-                          double size)
+SDL_Renderer *Renderer::getSdlRenderer() const
+{
+    return m_renderer;
+}
+
+void Renderer::drawString(const std::string &text, Vector2F const &position, TTF_Font *font, const SDL_Color &color)
 {
     SDL_Surface *surfaceText = TTF_RenderText_Solid(font, text.c_str(), color);
     if (surfaceText == nullptr)
@@ -73,13 +81,13 @@ void Renderer::drawTexture(SDL_Texture *texture, const SDL_Rect *src, const SDL_
     SDL_RenderCopy(m_renderer, texture, src, dest);
 }
 
-void Renderer::drawTexture(const Texture *texture, const Vector2 &center, const Vector2 &scale, float rotation)
+void Renderer::drawTexture(const Texture *texture, const Vector2F &center, const Vector2F &scale, float rotation)
 {
     SDL_Rect rect; // localization and size of the texture
     rect.x = center[0] - scale[0] / 2;
     rect.y = center[1] - scale[1] / 2;
     rect.w = scale[0];
     rect.h = scale[1];
-    SDL_Texture *text = texture->get();
+    SDL_Texture *text = texture->getSDL();
     SDL_RenderCopyEx(m_renderer, text, nullptr, &rect, rotation, nullptr, SDL_FLIP_NONE);
 }

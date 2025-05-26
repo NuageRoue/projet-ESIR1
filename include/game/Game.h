@@ -1,7 +1,6 @@
-#ifndef _GAME_H
-#define _GAME_H
+#ifndef __GAME__H
+#define __GAME__H
 
-#include <game/GameManager.h>
 #include <utils/Timer.h>
 
 #include <set>
@@ -17,17 +16,12 @@ class Game
         EXIT
     };
     GameState m_gameState; // Etat du jeu
-    std::set<char> m_pressed;
-
-    // std::shared_ptr<Map> m_map;		//Carte du jeu
 
   public:
-    // Constructeur initialiser fenetre
     Game();
 
-    virtual ~Game();
+    ~Game() = default;
 
-    // lancer le jeu
     void run();
 
   private:
@@ -35,11 +29,6 @@ class Game
 
     // boucle du jeu
     void gameLoop();
-
-    // mise a jour
-    void update();
-
-    void render();
 
     // fin du jeu
     void endGame();

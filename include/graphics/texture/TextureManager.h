@@ -3,42 +3,41 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+
+#include <memory>
 #include <unordered_map>
 
+#include <graphics/texture/Texture.h>
 #include <graphics/Renderer.h>
-class Texture;
 
 class TextureManager
 {
   protected:
     static std::unique_ptr<TextureManager> m_singleton;
 
-    std::unordered_map<int, std::shared_ptr<Texture>> m_textures;
+    std::unordered_map<std::string, std::unique_ptr<Texture>> m_loaded;
 
-    std::unordered_map<std::string, std::shared_ptr<Texture>> m_textureEntities;
-
-    friend class Renderer;
-
+    // init singleton
     TextureManager();
 
   public:
-    virtual ~TextureManager();
+    ~TextureManager();
+
+    // singleton cp
     TextureManager(const TextureManager &copy) = delete;
     TextureManager &operator=(const TextureManager &copy) = delete;
 
-    static TextureManager *getInstance();
-
-    std::shared_ptr<Texture> loadTexture(const std::string &filename, const std::string &value);
-
-    Texture *get(const std::string &value) const;
-
-    void removeTexture(const std::string &value);
-
-    void removeAllTexture();
-
+    // singleton things
     static void initialize();
-
     static void finalize();
+    static TextureManager &getInstance();
+
+    // others
+    Texture *loadTexture(const std::string &filename, const std::string &value);
+    Texture *getTexture(const std::string &value) const;
+    
+    void removeTexture(const std::string &value);
+    void removeAllTexture();
 };
 
 #endif

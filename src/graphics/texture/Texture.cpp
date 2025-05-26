@@ -1,6 +1,9 @@
 #include <stdexcept>
+#include <string>
 
 #include <graphics/texture/Texture.h>
+
+#include <graphics/Renderer.h>
 
 Texture::Texture(const std::string &filename) : m_texture(nullptr), m_filename(filename), m_width(0), m_height(0)
 {
@@ -35,7 +38,7 @@ Texture::~Texture()
 SDL_Texture *Texture::loadTexture(const std::string &filename)
 {
     m_texture =
-        IMG_LoadTexture(static_cast<SDL_Renderer *>(Renderer::getInstance()->getSdlRenderer()), filename.c_str());
+        IMG_LoadTexture(static_cast<SDL_Renderer *>(Renderer::getInstance().getSdlRenderer()), filename.c_str());
     if (m_texture == nullptr)
     {
         std::string error = "Unable to load texture " + filename + " ! SDL_image Error : " + IMG_GetError();
@@ -45,7 +48,7 @@ SDL_Texture *Texture::loadTexture(const std::string &filename)
     return m_texture;
 }
 
-SDL_Texture *Texture::get() const
+SDL_Texture *Texture::getSDL() const
 {
     return m_texture;
 }
@@ -55,12 +58,12 @@ const std::string &Texture::getFilename() const
     return m_filename;
 }
 
-MathUtils::Size Texture::getWidth() const
+Config::Size Texture::getWidth() const
 {
     return m_width;
 }
 
-MathUtils::Size Texture::getHeight() const
+Config::Size Texture::getHeight() const
 {
     return m_height;
 }

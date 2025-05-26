@@ -1,22 +1,19 @@
+#include <iostream>
+
+#include <game/level/LevelTest.h>
+
 #include <game/GameManager.h>
-
-#include <entity/Hero.h>
-#include <entity/Map.h>
-
-#include <algorithm>
-
-#include <game/level/Level1.h>
 
 std::unique_ptr<GameManager> GameManager::m_singleton = nullptr;
 
-GameManager::GameManager() : m_pressed(nullptr), m_current(nullptr)
+GameManager::GameManager() : m_current(nullptr)
 {
-
-    m_current = std::unique_ptr<LevelBase>(new Level1());
+    m_current = std::unique_ptr<LevelBase>(new LevelTest());
 }
 
 void GameManager::initialize()
 {
+    std::cout << "Initialize Game manager" << std::endl;
     m_singleton = std::unique_ptr<GameManager>(new GameManager());
 }
 void GameManager::finalize()
@@ -41,9 +38,4 @@ void GameManager::render()
 void GameManager::update()
 {
     m_current->update();
-}
-
-std::set<char> &GameManager::getKeyDown() const
-{
-    return *m_pressed;
 }

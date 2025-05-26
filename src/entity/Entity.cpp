@@ -2,19 +2,19 @@
 #include <entity/Entity.h>
 #include <graphics/Renderer.h>
 
-Entity::Entity(const Vector2 &position, const std::string &name, const unsigned int layer)
-    : m_name(name), m_layer(layer), m_absolute(position)
+Entity::Entity(const Vector2F &position, const std::string &name, const unsigned int layer)
+    : m_center(position), m_name(name), m_layer(layer)
 {
 }
 
-void Entity::setPosition(const Vector2 &position)
+void Entity::setPosition(const Vector2F &position)
 {
-    m_absolute = position;
+    m_center = position;
 }
 
-const Vector2 &Entity::getPosition() const
+const Vector2F &Entity::getPosition() const
 {
-    return m_absolute;
+    return m_center;
 }
 
 unsigned int Entity::getLayer() const

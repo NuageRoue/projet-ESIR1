@@ -1,32 +1,48 @@
+#include <algorithm>
+
 #include <game/level/LevelBase.h>
 
-LevelBase::LevelBase(std::unique_ptr<Hero> hero, std::unique_ptr<Map> map, std::unique_ptr<Camera> camera)
-    : m_hero(std::move(hero)), m_map(std::move(map)), m_camera(std::move(camera))
+LevelBase::LevelBase(std::unique_ptr<Player> player, std::unique_ptr<Camera> camera, std::unique_ptr<Map> map)
+    : m_entities(), m_player(std::move(player)), m_camera(std::move(camera)), m_map(std::move(map))
 {
 }
 
+#include <iostream>
+
 void LevelBase::render()
 {
-    const Vector2 ref = m_camera->getPosition();
+    const Vector2F ref = -m_camera->getPosition();
 
-    std::sort(m_entites.begin(), m_entites.end(),
+    m_map->render(ref);
+
+    std::sort(m_entities.begin(), m_entities.end(),
               [](const std::unique_ptr<Entity> &a, const std::unique_ptr<Entity> &b) {
                   return a->getLayer() < b->getLayer();
               });
 
-    m_map->render(ref);
-
-    std::for_each(m_entites.begin(), m_entites.end(),
+    std::for_each(m_entities.begin(), m_entities.end(),
                   [&ref](const std::unique_ptr<Entity> &entity) { entity->render(ref); });
-    m_hero->render(ref);
+
+    m_player->render(ref);
+    m_camera->render(ref);
 }
 
 void LevelBase::update()
 {
-    m_map->update();
-    m_hero->update();
+    std::for_each(m_entities.begin(), m_entities.end(),
+                  [](const std::unique_ptr<Entity> &entity) { entity->update(); });
+
+    m_player->update();
     m_camera->update();
+    m_map->update();
+}
 
+Player &LevelBase::getPlayer()
+{
+    return *m_player.get();
+}
 
-    std::for_each(m_entites.begin(), m_entites.end(), [](const std::unique_ptr<Entity> &entity) { entity->update(); });
+Camera &LevelBase::getCamera()
+{
+    return *m_camera.get();
 }

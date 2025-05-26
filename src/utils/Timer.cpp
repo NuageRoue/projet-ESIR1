@@ -1,6 +1,5 @@
 #include <utils/Timer.h>
 
-
 std::unique_ptr<Timer> Timer::m_singleton = nullptr;
 
 Timer &Timer::getInstance()
@@ -11,28 +10,30 @@ Timer &Timer::getInstance()
     return *m_singleton;
 }
 
-Timer::Timer():m_startTicks(0)
+Timer::Timer() : m_startTicks(0)
 {
 }
 
-Timer::~Timer(){
-}
-
-Uint64 Timer::getTicks() const {
-    if(m_startTicks>0){
+Uint64 Timer::getTicks() const
+{
+    if (m_startTicks > 0)
+    {
         return SDL_GetTicks64() - m_startTicks;
     }
     return 0;
 }
 
-double Timer::getSeconds() const {
+double Timer::getSeconds() const
+{
     return (double)SDL_GetTicks64() / 1000;
 }
 
-void Timer::start() {
+void Timer::start()
+{
     m_startTicks = SDL_GetTicks64();
 }
 
-void Timer::stop() {
+void Timer::stop()
+{
     m_startTicks = 0;
 }

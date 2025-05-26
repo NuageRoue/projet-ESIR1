@@ -1,39 +1,45 @@
-#include <graphics/texture/TextureManager.h>
-#include <graphics/texture/Texture.h>
 #include <cassert>
+#include <iostream>
+
+#include <graphics/texture/Texture.h>
+#include <graphics/texture/TextureManager.h>
 
 std::unique_ptr<TextureManager> TextureManager::m_singleton = nullptr;
 
-void TextureManager::initialize(){
+void TextureManager::initialize()
+{
+    std::cout << "Initialize Texture manager" << std::endl;
     m_singleton = std::unique_ptr<TextureManager>(new TextureManager());
 }
 
-void TextureManager::finalize(){
+void TextureManager::finalize()
+{
     m_singleton = nullptr;
 }
 
-std::shared_ptr<Texture> TextureManager::loadTexture(const std::string &filename, const std::string &value)
+Texture *TextureManager::loadTexture(const std::string &filename, const std::string &value)
 {
-    // Check if the key is already loaded
-    auto it = m_textureEntities.find(value);
-    if (it != m_textureEntities.end())
+    auto txt = getTexture(value);
+    if (txt != nullptr)
     {
-        return it->second;
+        return txt;
     }
 
     // Create and load the texture
-    std::shared_ptr<Texture> texture = std::make_shared<Texture>(filename);
+    std::unique_ptr<Texture> texture(new Texture(filename));
+
+    Texture *result = texture.get();
 
     // Store the texture
-    m_textureEntities[value] = texture;
+    m_loaded[value] = std::move(texture);
 
-    return texture;
+    return result;
 }
 
-Texture *TextureManager::get(const std::string &value) const
+Texture *TextureManager::getTexture(const std::string &value) const
 {
-    auto it = m_textureEntities.find(value);
-    if (it != m_textureEntities.end())
+    auto it = m_loaded.find(value);
+    if (it != m_loaded.end())
     {
         return it->second.get();
     }
@@ -42,16 +48,15 @@ Texture *TextureManager::get(const std::string &value) const
 
 void TextureManager::removeTexture(const std::string &value)
 {
-    m_textureEntities.erase(value);
+    m_loaded.erase(value);
 }
 
 void TextureManager::removeAllTexture()
 {
-    m_textures.clear();
-    m_textureEntities.clear();
+    m_loaded.clear();
 }
 
-TextureManager::TextureManager()
+TextureManager::TextureManager() : m_loaded()
 {
 }
 
@@ -60,7 +65,7 @@ TextureManager::~TextureManager()
     removeAllTexture();
 }
 
-TextureManager *TextureManager::getInstance()
+TextureManager &TextureManager::getInstance()
 {
-    return m_singleton.get();
+    return *m_singleton.get();
 }

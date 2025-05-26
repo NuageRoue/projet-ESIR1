@@ -1,12 +1,14 @@
 #ifndef _TEXTURE_H
 #define _TEXTURE_H
 
+#include <string>
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-#include <utils/MathUtils.h>
+#include <utils/Config.h>
 
-#include <graphics/Renderer.h>
+
 
 class Texture
 {
@@ -14,6 +16,7 @@ class Texture
   private:
     SDL_Texture *m_texture;
     std::string m_filename;
+    
     int m_width;
     int m_height;
 
@@ -30,10 +33,10 @@ class Texture
 
     virtual ~Texture();
 
-    SDL_Texture *get() const;
+    SDL_Texture *getSDL() const;
     const std::string &getFilename() const;
-    MathUtils::Size getWidth() const;
-    MathUtils::Size getHeight() const;
+    Config::Size getWidth() const;
+    Config::Size getHeight() const;
 };
 
 #endif //_TEXTURE_H

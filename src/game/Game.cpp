@@ -1,19 +1,17 @@
-#include <entity/Entity.h>
-#include <graphics/Renderer.h>
-
+// #include <entity/Entity.h>
 #include <iostream>
 
 #include <game/Game.h>
 
-Game::Game() : m_gameState(GameState::PLAY), m_pressed()
+#include <game/EventHandler.h>
+#include <game/GameManager.h>
+#include <graphics/Renderer.h>
+
+Game::Game() : m_gameState(GameState::PLAY)
 {
     initGame();
-    GameManager::initialize();
-    GameManager::getInstance().m_pressed = &m_pressed;
-}
-
-Game::~Game()
-{
+    // GameManager::initialize();
+    // GameManager::getInstance().m_pressed = &m_pressed;
 }
 
 void Game::run()
@@ -33,11 +31,9 @@ void Game::initGame()
     }
 
     Renderer::initialize();
-
-    // Load Texture
-    // Theme::loadTextureMap();
+    EventHandler::initialize();
+    GameManager::initialize();
 }
-
 
 void Game::gameLoop()
 {
@@ -46,57 +42,42 @@ void Game::gameLoop()
     {
         Timer::getInstance().start();
 
-        // récupérer les touches appuyées
-        // vérifier si on appuie que q -> quitte le jeu
-        SDL_Event event;
-        while (SDL_PollEvent(&event))
+        EventHandler &event = EventHandler::getInstance();
+        event.update();
+
+        if (event.isQuitting())
         {
-            if ((event.type == SDL_QUIT) || (event.type == SDL_KEYDOWN && event.key.keysym.sym == 'm'))
-            {
-                std::cout << "Exit signal detected" << std::endl;
-                m_gameState = GameState::EXIT;
-                break;
-            }
-            if (event.type == SDL_KEYDOWN)
-            {
-                m_pressed.insert((char)event.key.keysym.sym);
-            }
+            std::cout << "Exit signal detected" << std::endl;
+            m_gameState = GameState::EXIT;
+            break;
         }
 
-        // 2 - We update the simulation
-        update();
+        GameManager &manager = GameManager::getInstance();
+        manager.update();
+        manager.render();
 
-        // 3 - We render the scene
-        render();
+        Renderer::getInstance().render();
 
-        // 4 - We limit the frame rate
+        // We limit the frame rate
         Uint64 frameTime = Timer::getInstance().getTicks();
-        if (TICKS_PER_FRAME > frameTime)
+        if (Timer::tkPerFrame > frameTime)
         {
-            SDL_Delay(TICKS_PER_FRAME - frameTime);
+            SDL_Delay(Timer::tkPerFrame - frameTime);
         }
-
-        m_pressed.clear();
     }
-}
-
-void Game::update()
-{
-    GameManager::getInstance().update();
-}
-
-void Game::render()
-{
-    GameManager::getInstance().render();
-
-    Renderer::getInstance()->render();
 }
 
 void Game::endGame()
 {
+    std::cout << "Shutting down game manager" << std::endl;
     GameManager::finalize();
-    std::cout << "Shutting down renderer..." << std::endl;
+
+    std::cout << "Shutting down event handler" << std::endl;
+    EventHandler::finalize();
+
+    std::cout << "Shutting down renderer" << std::endl;
     Renderer::finalize();
+
     std::cout << "Shutting down SDL" << std::endl;
     SDL_Quit();
 }

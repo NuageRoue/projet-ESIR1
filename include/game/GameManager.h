@@ -2,13 +2,11 @@
 #define _GAME_MANAGER_H
 
 #include <memory>
-#include <set>
-#include <string>
-#include <unordered_map>
 
 #include <game/Game.h>
 
 #include <game/level/LevelBase.h>
+
 
 class GameManager
 {
@@ -18,7 +16,6 @@ class GameManager
   private:
     static std::unique_ptr<GameManager> m_singleton;
 
-    std::set<char> *m_pressed;
     std::unique_ptr<LevelBase> m_current;
 
   private:
@@ -26,6 +23,10 @@ class GameManager
 
   public:
     ~GameManager() = default;
+
+    // singleton no cp
+    GameManager(const GameManager &) = delete;
+    void operator=(const GameManager &) = delete;
 
     // singletons
     static void initialize();
@@ -36,9 +37,6 @@ class GameManager
     // update render
     void render();
     void update();
-
-    // touche pressé uniquement ici
-    std::set<char> &getKeyDown() const;
 };
 
 #endif

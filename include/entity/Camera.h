@@ -1,26 +1,16 @@
-#ifndef _CAMERA_H
-#define _CAMERA_H
-
-#include <graphics/texture/Texture.h>
-#include <graphics/texture/TextureManager.h>
+#ifndef __CAMERA__H
+#define __CAMERA__H
 
 #include <entity/Entity.h>
 
-#include <memory>
-
 class Camera : public Entity
 {
-
   public:
-    static const std::string nameCamera;
-
-  public:
-    // Constructeur et destructeur
-    Camera(const Vector2 &position);
+    Camera(const Vector2F &position);
     ~Camera() override = default;
 
     // update et render
-    void render(const Vector2 &ref) override;
+    void render(const Vector2F &ref) override;
     void update() override;
 };
 

@@ -1,17 +1,16 @@
-#ifndef _TIMER_H
-#define _TIMER_H
+#ifndef __TIMER__H
+#define __TIMER__H
 
 #include <SDL2/SDL.h>
+
 #include <memory>
 
-#define TPS 60
-#define TICKS_PER_FRAME 1000 / TPS
 
-/// <summary>
-/// Classe permettant de gérer les FPS dans le jeu.
-/// </summary>
 class Timer
 {
+  public:
+    static constexpr double tps = 60;
+    static constexpr double tkPerFrame = 1000 / tps;
 
   protected:
     static std::unique_ptr<Timer> m_singleton;
@@ -22,7 +21,7 @@ class Timer
     Timer();
 
   public:
-    ~Timer();
+    ~Timer() = default;
 
     Timer(const Timer &copy) = delete;
     Timer &operator=(const Timer &copy) = delete;
@@ -37,4 +36,4 @@ class Timer
     void update();
 };
 
-#endif //_TIMER_H
+#endif

@@ -1,14 +1,22 @@
+#include <graphics/texture/TextureManager.h>
+#include <utils/Config.h>
+#include <utils/Reader.h>
+
 #include <entity/Map.h>
 
-#include <utils/Config.h>
-
-
-Map::Map(const Vector2 &position, const std::string &name)
-    : DrawEntity(
-          position, name, 0,
-          {"assets/tiles/GRASS.png", "assets/tiles/BRICK2.png", "assets/tiles/WATER.png", "assets/tiles/LAVA.png"}),
-      m_map(), m_unitX(0), m_unitY(0)
+Map::Map(const Vector2F &position, const std::string &name)
+    : Entity(position, name, 0), m_map(), m_unitX(0), m_unitY(0), m_textures()
 {
+    {
+        int index = 0;
+        TextureManager &manager = TextureManager::getInstance();
+        for (const std::string &file : Config::mapTextures)
+        {
+            ++index;
+            m_textures.push_back(manager.loadTexture(file, name + std::to_string(index)));
+        }
+    }
+
     m_map = Reader::getData();
 
     m_unitY = m_map.size();
@@ -19,9 +27,10 @@ void Map::update()
 {
 }
 
-void Map::render(const Vector2 &ref)
+void Map::render(const Vector2F &ref)
 {
     int type;
+    Renderer &renderer = Renderer::getInstance();
 
     for (unsigned int row = 0; row < m_unitY; ++row)
     {
@@ -29,10 +38,10 @@ void Map::render(const Vector2 &ref)
         {
             type = m_map.at(row).at(column);
 
-            SDL_Rect destRect = {column * Config::unit + ref[0], row * Config::unit + ref[1], Config::unit,
-                                 Config::unit};
+            SDL_Rect destRect = {column * Config::tile + ref[0], row * Config::tile + ref[1], Config::tile,
+                                 Config::tile};
 
-            Renderer::getInstance()->drawTexture(getTexture().at(type)->get(), nullptr, &destRect);
+            renderer.drawTexture(m_textures.at(type)->getSDL(), nullptr, &destRect);
         }
     }
 }
