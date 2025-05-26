@@ -18,12 +18,14 @@ class Entity
     virtual ~Entity() = default;
 
     // position
-    void setPosition(const Vector2 &position);
+    virtual void setPosition(const Vector2 &position);
     const Vector2 &getPosition() const;
 
     // virtual update / render
     virtual void update() = 0;
-    virtual void render() = 0;
+    virtual void render(const Vector2 &ref) = 0;
+
+    unsigned int getLayer() const;
 };
 
 #endif //_ENTITY_H

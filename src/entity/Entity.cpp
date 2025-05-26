@@ -16,3 +16,8 @@ const Vector2 &Entity::getPosition() const
 {
     return m_position;
 }
+
+unsigned int Entity::getLayer() const
+{
+    return m_layer;
+}

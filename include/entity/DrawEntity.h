@@ -22,8 +22,9 @@ class DrawEntity : public Entity
     ~DrawEntity() override = default;
 
     // update et render
-    void render() override;
+    void render(const Vector2 &ref) override;
     void update() override;
+    const std::vector<std::shared_ptr<Texture>> &getTexture() const;
 };
 
 #endif

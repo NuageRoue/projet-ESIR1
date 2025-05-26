@@ -8,6 +8,7 @@
 
 #include <entity/Entity.h>
 #include <entity/Hero.h>
+#include <entity/Map.h>
 
 #include <game/Game.h>
 
@@ -20,9 +21,11 @@ class GameManager
     static std::unique_ptr<GameManager> m_singleton;
 
     std::set<char> *m_pressed;
-    std::set<std::unique_ptr<Entity>> m_entites; // set avec toutes les entites du jeu
+    std::vector<std::unique_ptr<Entity>> m_entites; // set avec toutes les entites du jeu
 
-    std::unique_ptr<Hero> *m_hero;
+    Hero *m_hero;
+    Map *m_map;
+    Vector2 m_ref;
 
   private:
     GameManager();

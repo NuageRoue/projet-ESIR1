@@ -15,7 +15,7 @@ DrawEntity::DrawEntity(const Vector2 &position, const std::string &name, const u
     }
 }
 
-void DrawEntity::render()
+void DrawEntity::render(const Vector2 &ref)
 {
     Renderer &render = *Renderer::getInstance();
 
@@ -27,4 +27,9 @@ void DrawEntity::render()
 
 void DrawEntity::update()
 {
+}
+
+const std::vector<std::shared_ptr<Texture>> &DrawEntity::getTexture() const
+{
+    return m_textures;
 }
