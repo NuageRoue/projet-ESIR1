@@ -44,36 +44,27 @@ void Game::loadGame(const std::string &filename)
 
 void Game::gameLoop()
 {
-    // récupérer les touches appuyées
-    // vérifier si on appuie que q -> quitte le jeu
-    SDL_Event event;
-    while (SDL_PollEvent(&event))
-    {
-        switch (event.type)
-        {
-        case SDL_QUIT:
-            std::cout << "Exit signal detected" << ::std::endl;
-            m_gameState = GameState::EXIT;
-            break;
-        case SDL_KEYDOWN:
-            switch (event.key.keysym.sym)
-            {
-            case 'q':
-                std::cout << "Exit signal detected" << ::std::endl;
-                m_gameState = GameState::EXIT;
-                break;
-            default:
-                break;
-            }
-        default:
-            break;
-        }
-    }
-
     //// The main event loop
     while (m_gameState != GameState::EXIT)
     {
         Timer::getInstance().start();
+
+        // récupérer les touches appuyées
+        // vérifier si on appuie que q -> quitte le jeu
+        SDL_Event event;
+        while (SDL_PollEvent(&event))
+        {
+            if ((event.type == SDL_QUIT) || (event.type == SDL_KEYDOWN && event.key.keysym.sym == 'q'))
+            {
+                std::cout << "Exit signal detected" << std::endl;
+                m_gameState = GameState::EXIT;
+                break;
+            }
+            if (event.type == SDL_KEYDOWN)
+            {
+                std::cout << (char)event.key.keysym.sym << std::endl;
+            }
+        }
 
         // 2 - We update the simulation
         update();

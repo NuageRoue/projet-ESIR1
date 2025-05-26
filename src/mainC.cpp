@@ -1,12 +1,14 @@
+
+/*
 #include "SDL_log.h"
-#include "imgui.h"
 #include "backends/imgui_impl_sdl2.h"
 #include "backends/imgui_impl_sdlrenderer2.h"
+#include "imgui.h"
 #include <SDL.h>
 
 void logSomeThing()
 {
-	SDL_Log("something :)"); 
+    SDL_Log("something :)");
 }
 int main(int, char**)
 {
@@ -84,3 +86,5 @@ int main(int, char**)
 
     return 0;
 }
+
+*/

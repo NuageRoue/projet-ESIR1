@@ -1,6 +1,7 @@
 #ifndef _ENTITY_H
 #define _ENTITY_H
 
+#include <string>
 #include <utils/Vector2.h>
 
 class Entity

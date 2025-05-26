@@ -3,7 +3,7 @@
 #include <graphics/Renderer.h>
 
 Entity::Entity(const Vector2 &position, const Vector2 &size, const std::string &nameEntity)
-    : m_position(position), m_size(size), m_nameEntity(nameEntity)
+    : m_position(position), m_size(size)
 {
 }
 
