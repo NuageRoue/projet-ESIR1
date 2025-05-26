@@ -21,16 +21,14 @@ class Player : public Entity{
     );
     virtual ~Player();
 
-    /*
     const double & getXP() const;
     const unsigned int & getLevel() const;
     const double getLevelCap() const;
-    */
     const std::vector<Item*> & getItems() const;
 
     Attack * chooseAttack() const override;
 
-
+    void increaseXP(double xp);
 
 };
 

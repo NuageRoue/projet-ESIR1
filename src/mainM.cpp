@@ -24,7 +24,7 @@ int main()
     attacksEnemy.push_back(interjectionB);
 
     Player player(20.0, 50, "MARTIN", attacksPlayer, items);
-    Enemy enemy(15.0, 30, "NIELS", attacksEnemy);
+    Enemy enemy(15.0, 30, "NIELS", 100, attacksEnemy);
 
     
 
@@ -63,9 +63,10 @@ int main()
     if (player.getActualHP() > 0)
     {
         std::cout << "Bravo ! Vous avez vaincu " << enemy.getName() << " !" << std::endl;
+        std::cout << "Vous avez gagné " << enemy.getXP() << " XP." << std::endl;
+        player.increaseXP(enemy.getXP());
     }else{
         std::cout << enemy.getName() << " vous a vaincu :(" << std::endl;
     }
-    
     
 }
