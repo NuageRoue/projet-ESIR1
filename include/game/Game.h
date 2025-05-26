@@ -1,7 +1,8 @@
 #ifndef _GAME_H
 #define _GAME_H
 
-#include <entity/Entity.h>
+
+#include <game/GameManager.h>
 #include <utils/Timer.h>
 
 #include <set>
@@ -17,9 +18,10 @@ class Game
     };
     GameState m_gameState; // Etat du jeu
 
+
     // std::shared_ptr<Map> m_map;		//Carte du jeu
 
-    std::set<std::unique_ptr<Entity>> m_entites; // set avec toutes les entites du jeu
+    
 
   public:
     // Constructeur initialiser fenetre

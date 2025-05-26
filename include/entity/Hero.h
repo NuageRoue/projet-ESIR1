@@ -11,7 +11,7 @@ class Hero : public DrawEntity
   public:
     /// Constructeur du héros
     Hero(const Vector2 &position, const Vector2 &size, const std::string &filename, const std::string &nameEntity);
-    virtual ~Hero();
+    virtual ~Hero() = default;
 
     void update() override;
     void render() override;

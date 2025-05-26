@@ -8,6 +8,7 @@
 Game::Game() : m_gameState(GameState::PLAY)
 {
     initGame();
+    GameManager::initialize();
     loadGame("assets/maps/map.txt");
 }
 
@@ -45,6 +46,9 @@ void Game::loadGame(const std::string &filename)
 void Game::gameLoop()
 {
     //// The main event loop
+    std::set<char> keyDown;
+    GameManager::getInstance().m_keyDown = &keyDown;
+
     while (m_gameState != GameState::EXIT)
     {
         Timer::getInstance().start();
@@ -62,7 +66,7 @@ void Game::gameLoop()
             }
             if (event.type == SDL_KEYDOWN)
             {
-                std::cout << (char)event.key.keysym.sym << std::endl;
+                keyDown.insert((char)event.key.keysym.sym);
             }
         }
 
@@ -78,32 +82,26 @@ void Game::gameLoop()
         {
             SDL_Delay(TICKS_PER_FRAME - frameTime);
         }
+
+        keyDown.clear();
     }
 }
 
 void Game::update()
 {
-    for (auto ite = m_entites.begin(); ite != m_entites.end(); ite++)
-    {
-        (*ite)->update();
-    }
+    GameManager::getInstance().update();
 }
 
 void Game::render()
 {
-    // m_map->drawMap();
-
-    // affichage entites
-    for (auto ite = m_entites.begin(); ite != m_entites.end(); ite++)
-    {
-        (*ite)->render();
-    }
+    GameManager::getInstance().render();
 
     Renderer::getInstance()->render();
 }
 
 void Game::endGame()
 {
+    GameManager::finalize();
     std::cout << "Shutting down renderer..." << std::endl;
     Renderer::finalize();
     std::cout << "Shutting down SDL" << std::endl;
