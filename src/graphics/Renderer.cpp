@@ -1,12 +1,10 @@
-#include <utils/config.h>
-
 #include <graphics/Renderer.h>
 
 std::unique_ptr<Renderer> Renderer::m_singleton = nullptr;
 
 Renderer::Renderer()
 {
-    if (SDL_CreateWindowAndRenderer(Constants::width, Constants::height, SDL_WINDOW_SHOWN, &m_window, &m_renderer))
+    if (SDL_CreateWindowAndRenderer(Config::width, Config::height, SDL_WINDOW_SHOWN, &m_window, &m_renderer))
     {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Couldn't create window and renderer: %s", SDL_GetError());
         exit(3);

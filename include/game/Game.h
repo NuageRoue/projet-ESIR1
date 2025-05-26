@@ -13,6 +13,7 @@ class Game
     enum class GameState
     {
         PLAY,
+        PAUSE,
         EXIT
     };
     GameState m_gameState; // Etat du jeu

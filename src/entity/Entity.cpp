@@ -2,26 +2,18 @@
 #include <entity/Entity.h>
 #include <graphics/Renderer.h>
 
-Entity::Entity(const Vector2Grid &position, const std::string &name, const unsigned int layer)
-    : m_grid(position), m_name(name), m_layer(layer), m_absolute(0,0)
+Entity::Entity(const Vector2 &position, const std::string &name, const unsigned int layer)
+    : m_name(name), m_layer(layer), m_absolute(position)
 {
 }
 
-void Entity::setPosition(const Vector2Grid &position)
+void Entity::setPosition(const Vector2 &position)
 {
-    m_grid = position;
-}
-
-void Entity::setAbsolute(const Vector2 &position) const{
     m_absolute = position;
 }
 
-const Vector2Grid &Entity::getPosition() const
+const Vector2 &Entity::getPosition() const
 {
-    return m_position;
-}
-
-const Vector2 &Entity::getAbsolute() const{
     return m_absolute;
 }
 

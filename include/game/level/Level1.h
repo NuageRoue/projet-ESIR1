@@ -9,7 +9,7 @@ class Level1 : public LevelBase
   public:
     Level1()
         : LevelBase(std::unique_ptr<Hero>(
-                        new Hero(Vector2(1, 1), 2, std::vector<std::string>{"./assets/tiles/liquidWater.png"})),
+                        new Hero(Vector2(0.5, 0.5), 2, std::vector<std::string>{"./assets/tiles/liquidWater.png"})),
                     std::unique_ptr<Map>(new Map(Vector2(0, 0), "map")),
                     std::unique_ptr<Camera>(new Camera(Vector2(1, 1))))
     {

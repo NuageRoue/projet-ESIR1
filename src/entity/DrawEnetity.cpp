@@ -1,6 +1,6 @@
 #include <entity/DrawEntity.h>
 
-#include <utils/config.h>
+#include <utils/Config.h>
 
 DrawEntity::DrawEntity(const Vector2 &position, const std::string &name, const unsigned int layer,
                        const std::vector<std::string> textureFiles)
@@ -18,8 +18,9 @@ DrawEntity::DrawEntity(const Vector2 &position, const std::string &name, const u
 void DrawEntity::render(const Vector2 &ref)
 {
     Renderer &render = *Renderer::getInstance();
-    const Vector2 position = (getPosition() + Vector2(0.5, 0.5)) * Constants::tile;
-    const Vector2 taille = Vector2(1, 1) * Constants::tile;
+
+    const Vector2 position = getPosition() * Config::unit;
+    const Vector2 taille = Vector2(1, 1) * Config::unit;
 
     for (const std::shared_ptr<Texture> texture : m_textures)
     {

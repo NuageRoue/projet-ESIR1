@@ -7,7 +7,7 @@ LevelBase::LevelBase(std::unique_ptr<Hero> hero, std::unique_ptr<Map> map, std::
 
 void LevelBase::render()
 {
-    const Vector2 ref = -m_camera->getPosition();
+    const Vector2 ref = m_camera->getPosition();
 
     std::sort(m_entites.begin(), m_entites.end(),
               [](const std::unique_ptr<Entity> &a, const std::unique_ptr<Entity> &b) {
