@@ -3,12 +3,15 @@
 
 
 #include "SDL.h"
+#include <string>
 class UI
 {
 private:
 
+	static bool isDisplayingText;
+	static std::string textToDisplay;
 	static void useAttack(int i);
-
+	static bool hasClickedThisFrame;
 
 	static void setWindow();
 
@@ -21,6 +24,11 @@ public:
 	static void setUI(SDL_Window * window, SDL_Renderer* renderer);
 	static void displayUI();
 	static void flushUI();
+
+	static void displayTextMessage(std::string message);
+	static void renderMessages();
+
+	static void stopDisplayingText();
 };
 
 #endif
