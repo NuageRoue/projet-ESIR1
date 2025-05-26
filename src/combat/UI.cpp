@@ -16,11 +16,13 @@ void UI::processEvent(const SDL_Event *event)
     if (event->type == SDL_MOUSEBUTTONDOWN)
 	hasClickedThisFrame = true; 
 }
+
 void UI::render(SDL_Renderer *renderer)
 {
         ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData(), renderer);
 }
-void UI::setUI(SDL_Window* window, SDL_Renderer* renderer)
+
+void UI::setupUI(SDL_Window* window, SDL_Renderer* renderer)
 {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -30,11 +32,11 @@ void UI::setUI(SDL_Window* window, SDL_Renderer* renderer)
     ImGui_ImplSDLRenderer2_Init(renderer);
 
 }
-void UI::setWindow()
+
+
+void UI::setSelectWindow()
 {
-        ImGui_ImplSDLRenderer2_NewFrame();
-        ImGui_ImplSDL2_NewFrame();
-        ImGui::NewFrame();
+	
 
         ImGui::SetNextWindowPos(ImVec2(0, 600 - 200));
         ImGui::SetNextWindowSize(ImVec2(800, 200));
@@ -47,7 +49,7 @@ void UI::setWindow()
 	
 }
 
-void UI::displayAttacks()
+void UI::displaySelectWindow()
 {
     bool disabled = UI::isDisplayingText;
     if (disabled)
@@ -77,6 +79,9 @@ void UI::displayAttacks()
 		hasClickedThisFrame = false;
 		isDisplayingText = false;
 	}
+
+	displayTextMessage();
+	ImGui::End();
 }
 
 void UI::useAttack(int id)
@@ -85,16 +90,20 @@ void UI::useAttack(int id)
 		return;
 	std::cout << "Using attack " << id << "." << std::endl ;
 	//std::string message = "attaque " + std::to_string(id);
-	displayTextMessage("attaque " + std::to_string(id));
+	setTextMessage("attaque " + std::to_string(id));
 }
 
 void UI::displayUI()
 {
-	setWindow();
-	displayAttacks();
-	renderMessages();
+        ImGui_ImplSDLRenderer2_NewFrame();
+        ImGui_ImplSDL2_NewFrame();
+        ImGui::NewFrame();
 
-        ImGui::End();
+	setFightWindow();
+	displayFightWindow();
+	setSelectWindow();
+	displaySelectWindow();
+
         ImGui::Render();
 }
 
@@ -105,7 +114,7 @@ void UI::flushUI()
     ImGui::DestroyContext();
 }
 
-void UI::displayTextMessage(std::string message)
+void UI::setTextMessage(std::string message)
 {
 	std::cout << "displaying text" << std::endl;
 	UI::isDisplayingText = true;
@@ -114,7 +123,7 @@ void UI::displayTextMessage(std::string message)
 
 }
 
-void UI::renderMessages()
+void UI::displayTextMessage()
 {
 	if (UI::isDisplayingText)
 	{
@@ -134,4 +143,55 @@ void UI::renderMessages()
 
 		ImGui::PopStyleColor();
 	}
+}
+
+
+
+void UI::setFightWindow()
+{
+	ImGui::SetNextWindowPos(ImVec2(0,0));
+        ImGui::SetNextWindowSize(ImVec2(800, 400));
+
+
+        ImGui::Begin("Fixed Top Panel", nullptr,
+            ImGuiWindowFlags_NoMove |
+            ImGuiWindowFlags_NoResize |
+            ImGuiWindowFlags_NoCollapse |
+            ImGuiWindowFlags_NoTitleBar);
+
+}
+
+void UI::displayFightWindow()
+{
+	ImGui::BeginGroup();
+	ImGui::Text("Joueur");
+	//ImGui::Image((void*)(intptr_t)playerTexture, ImVec2(128, 128));  // SDL_Texture à convertir
+	drawHealthBar(13, 20, ImVec2(200, 20));
+	ImGui::EndGroup();
+
+	ImGui::SameLine(400);  // espace central
+
+	// Ennemi
+	ImGui::BeginGroup();
+	ImGui::Text("Ennemi");
+	//ImGui::Image((void*)(intptr_t)enemyTexture, ImVec2(128, 128));
+	drawHealthBar(6, 20, ImVec2(200, 20));
+	ImGui::EndGroup();
+	ImGui::End();
+}
+
+void UI::drawHealthBar(int hp, int maxHP, ImVec2 size)
+{
+	float fraction = (float)hp / maxHP;
+
+	ImVec4 barColor = ImVec4(0.2f, 0.8f, 0.2f, 1.0f);  // vert
+
+	if (fraction < 0.3f)
+		barColor = ImVec4(0.8f, 0.2f, 0.2f, 1.0f);  // rouge
+	else if (fraction < 0.6f)
+		barColor = ImVec4(0.8f, 0.8f, 0.2f, 1.0f);  // jaune
+
+	ImGui::PushStyleColor(ImGuiCol_PlotHistogram, barColor);
+	ImGui::ProgressBar(fraction, size);
+	ImGui::PopStyleColor();
 }
