@@ -33,3 +33,5 @@
 
 
 src/main.cpp
+.cache/
+compile_commands.json
