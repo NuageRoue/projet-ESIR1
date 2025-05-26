@@ -10,16 +10,23 @@ OBJ_DIR = build/bin
 BIN_DIR = build
 EXEC = $(BIN_DIR)/jeu
 
-# Récupération des fichiers source (.cpp) récursivement
-SOURCES  = $(shell find $(SRC_DIR) -name '*.cpp')
+# Répertoires à exclure
+EXCLUDE_DIRS = $(SRC_DIR)/combat 
 
-# Transformation des chemins source -> objets (dans build/bin)
-OBJECTS  = $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SOURCES))
+# Tous les fichiers .cpp
+ALL_SOURCES = $(shell find $(SRC_DIR) -name '*.cpp')
 
-# Cibles par défaut (mode debug)
+# Supprimer les fichiers qui sont dans les dossiers exclus
+EXCLUDED_SOURCES = $(foreach dir,$(EXCLUDE_DIRS),$(shell find $(dir) -name '*.cpp'))
+SOURCES = $(filter-out $(EXCLUDED_SOURCES),$(ALL_SOURCES))
+
+# Chemins objets (dans build/bin)
+OBJECTS = $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SOURCES))
+
+# Cibles par défaut
 all: debug
 
-# Lien final (mode debug)
+# Lien final (debug)
 debug: CXXFLAGS = $(CXXFLAGS_DEBUG)
 debug: $(EXEC)
 
@@ -32,7 +39,6 @@ $(EXEC): $(OBJECTS)
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
-
 
 # Nettoyage
 clean:
