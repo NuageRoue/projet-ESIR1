@@ -1,6 +1,6 @@
 
-/*
 #include "SDL_log.h"
+#include "imgui.h"
 #include "backends/imgui_impl_sdl2.h"
 #include "backends/imgui_impl_sdlrenderer2.h"
 #include "imgui.h"
@@ -28,8 +28,10 @@ int main(int, char**)
         return -1;
     }
 
-    // Création renderer SDL (SDL_Renderer pur)
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    // Création renderer SDL
+    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1,
+        SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
     if (!renderer) {
         SDL_Log("SDL_CreateRenderer error: %s", SDL_GetError());
         SDL_DestroyWindow(window);
@@ -61,9 +63,26 @@ int main(int, char**)
         ImGui_ImplSDL2_NewFrame();
         ImGui::NewFrame();
 
-        ImGui::Begin("Test Window");
-        if (ImGui::Button("log !"))
-            logSomeThing();
+        // --- Fenêtre verrouillée en bas ---
+        ImGui::SetNextWindowPos(ImVec2(0, 600 - 200)); // position fixe
+        ImGui::SetNextWindowSize(ImVec2(800, 200));    // taille fixe
+
+        ImGui::Begin("Fixed Bottom Panel", nullptr,
+            ImGuiWindowFlags_NoMove |
+            ImGuiWindowFlags_NoResize |
+            ImGuiWindowFlags_NoCollapse |
+            ImGuiWindowFlags_NoTitleBar);
+
+        ImGui::Text("Interface verrouillée en bas de l'écran.");
+        if (ImGui::Button("Click me!"))
+            SDL_Log("Bouton pressé 1");
+        if (ImGui::Button("Click me!"))
+            SDL_Log("Bouton pressé 2");
+        if (ImGui::Button("Click me!"))
+            SDL_Log("Bouton pressé 3");
+        if (ImGui::Button("Click me!"))
+            SDL_Log("Bouton pressé 4");
+
         ImGui::End();
 
         ImGui::Render();
@@ -87,4 +106,3 @@ int main(int, char**)
     return 0;
 }
 
-*/
