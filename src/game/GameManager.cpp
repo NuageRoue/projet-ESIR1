@@ -7,11 +7,10 @@
 
 std::unique_ptr<GameManager> GameManager::m_singleton = nullptr;
 
-GameManager::GameManager() : m_entites(), m_keyDown(nullptr)
+GameManager::GameManager() : m_entites(), m_pressed(nullptr)
 {
-    m_entites["hero"] =
-        std::unique_ptr<Hero>(new Hero(Vector2(0, 0), Vector2(1, 1), "./assets/tiles/liquidWater.png", "textureHero"));
-    m_entites["map"] = std::unique_ptr<Map>(new Map(Vector2(0, 0), "map"));
+    m_entites.insert(std::unique_ptr<Hero>(new Hero(Vector2(Constants::tile, Constants::tile), 2,
+                                                    std::vector<std::string>{"./assets/tiles/liquidWater.png"})));
 }
 
 void GameManager::initialize()
@@ -29,18 +28,15 @@ GameManager &GameManager::getInstance()
 
 void GameManager::render()
 {
-
-    std::for_each(m_entites.begin(), m_entites.end(),
-                  [](std::pair<const std::string, std::unique_ptr<Entity>> &s) { s.second->render(); });
+    std::for_each(m_entites.begin(), m_entites.end(), [](const std::unique_ptr<Entity> &entity) { entity->render(); });
 }
 
 void GameManager::update()
 {
-    std::for_each(m_entites.begin(), m_entites.end(),
-                  [](std::pair<const std::string, std::unique_ptr<Entity>> &s) { s.second->update(); });
+    std::for_each(m_entites.begin(), m_entites.end(), [](const std::unique_ptr<Entity> &entity) { entity->update(); });
 }
 
 std::set<char> &GameManager::getKeyDown() const
 {
-    return *m_keyDown;
+    return *m_pressed;
 }

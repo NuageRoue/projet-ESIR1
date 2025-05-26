@@ -2,23 +2,27 @@
 
 #include <utils/config.h>
 
-DrawEntity::DrawEntity(const Vector2 &position, const Vector2 &size, const std::string &filename,
-                       const std::string &nameEntity)
-    : Entity(position, size, nameEntity), m_nameEntity(nameEntity)
+DrawEntity::DrawEntity(const Vector2 &position, const std::string &name, const unsigned int layer,
+                       const std::vector<std::string> textureFiles)
+    : Entity(position, name, layer), m_textureFiles(textureFiles), m_textures()
 {
-    loadTexture(filename, m_nameEntity);
-}
-
-void DrawEntity::loadTexture(const std::string &filename, const std::string &nameEntity)
-{
-    m_nameEntity = nameEntity;
-    m_texture = TextureManager::getInstance()->loadTexture(filename, m_nameEntity);
+    TextureManager &textureManager = *TextureManager::getInstance();
+    const std::string textureName = "Texture" + name;
+    int index = 0;
+    for (const std::string &file : m_textureFiles)
+    {
+        m_textures.push_back(textureManager.loadTexture(file, textureName + std::to_string(index++)));
+    }
 }
 
 void DrawEntity::render()
 {
-    Renderer::getInstance()->drawTexture(m_texture.get(), getPosition() + Vector2(1, 1) * (Constants::tile / 2),
-                                         Vector2(Constants::tile, Constants::tile), 0.f);
+    Renderer &render = *Renderer::getInstance();
+
+    for (const std::shared_ptr<Texture> texture : m_textures)
+    {
+        render.drawTexture(texture.get(), getPosition(), Vector2(Constants::tile, Constants::tile), 0.0f);
+    }
 }
 
 void DrawEntity::update()

@@ -2,7 +2,7 @@
 
 #include <utils/config.h>
 
-Map::Map(const Vector2 &position, const std::string &nameEntity) : Entity(position, 1, nameEntity), m_map(), m_texture()
+Map::Map(const Vector2 &position, const std::string &name) : Entity(position, name, 0), m_map(), m_texture()
 {
     m_map = Reader::getData();
 

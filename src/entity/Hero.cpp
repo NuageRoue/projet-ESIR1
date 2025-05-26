@@ -2,8 +2,10 @@
 
 #include <game/GameManager.h>
 
-Hero::Hero(const Vector2 &position, const Vector2 &size, const std::string &filename, const std::string &nameEntity)
-    : DrawEntity(position, size, filename, nameEntity)
+const std::string Hero::nameHero = "hero";
+
+Hero::Hero(const Vector2 &position, const unsigned int layer, const std::vector<std::string> textureFiles)
+    : DrawEntity(position, Hero::nameHero, layer, textureFiles)
 {
 }
 
@@ -13,9 +15,4 @@ void Hero::update()
     {
         std::cout << c << std::endl;
     }
-}
-
-void Hero::render()
-{
-    DrawEntity::render();
 }

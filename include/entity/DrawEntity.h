@@ -11,20 +11,19 @@
 class DrawEntity : public Entity
 {
   private:
-    std::string m_nameEntity;           // Nom de l'entité dans la liste
-    std::shared_ptr<Texture> m_texture; // Texture associé à l'entité
+    const std::vector<std::string> m_textureFiles;
+    std::vector<std::shared_ptr<Texture>> m_textures; // Texture associé à l'entité
 
   public:
-    DrawEntity(const Vector2 &position, const Vector2 &size, const std::string &filename,
-               const std::string &nameEntity);
+    // Constructeur et destructeur
+    DrawEntity(const Vector2 &position, const std::string &name, const unsigned int layer,
+               const std::vector<std::string> textureFiles);
 
-    ~DrawEntity() = default;
+    ~DrawEntity() override = default;
 
+    // update et render
     void render() override;
     void update() override;
-
-    /// Permet de charger la texutre et de l'associer à l'entité.
-    void loadTexture(const std::string &filename, const std::string &nameEntity);
 };
 
 #endif

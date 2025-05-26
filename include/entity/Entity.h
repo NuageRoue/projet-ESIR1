@@ -8,22 +8,21 @@ class Entity
 {
 
   private:
-    Vector2 m_position; // Position de l'entité dans le monde
-    Vector2 m_size;     // Taille (width-height) de l'entiee
+    Vector2 m_position; // center
+    const std::string m_name;
+    unsigned int m_layer;
 
   public:
-    /// Constructeur de l'entité.
-    Entity(const Vector2 &position, const Vector2 &size, const std::string &nameEntity);
+    // constructeur et destructeur
+    Entity(const Vector2 &position, const std::string &name, const unsigned int layer);
+    virtual ~Entity() = default;
 
-    virtual ~Entity();
-
+    // position
     void setPosition(const Vector2 &position);
-    const Vector2 &getPosition();
+    const Vector2 &getPosition() const;
 
-    /// Met à jour les caractéristiques de l'entité.
+    // virtual update / render
     virtual void update() = 0;
-
-    /// Affichage de l'entité dans la fenêtre du jeu.
     virtual void render() = 0;
 };
 

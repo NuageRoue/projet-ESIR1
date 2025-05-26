@@ -13,23 +13,30 @@
 class GameManager
 {
   private:
-    static std::unique_ptr<GameManager> m_singleton;
-
     friend class Game;
 
-    std::set<char> *m_keyDown;
-    std::unordered_map<std::string, std::unique_ptr<Entity>> m_entites; // set avec toutes les entites du jeu
+  private:
+    static std::unique_ptr<GameManager> m_singleton;
+    
+    std::set<char> *m_pressed;
+    std::set<std::unique_ptr<Entity>> m_entites; // set avec toutes les entites du jeu
 
   private:
     GameManager();
 
   public:
     ~GameManager() = default;
+
+    // singletons
     static void initialize();
     static void finalize();
     static GameManager &getInstance();
+
+    // update render
     void render();
     void update();
+
+    // touche pressé uniquement ici
     std::set<char> &getKeyDown() const;
 };
 

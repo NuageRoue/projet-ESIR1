@@ -7,14 +7,15 @@
 /// Classe représentant un personnage du jeu
 class Hero : public DrawEntity
 {
+  public:
+    static const std::string nameHero;
 
   public:
     /// Constructeur du héros
-    Hero(const Vector2 &position, const Vector2 &size, const std::string &filename, const std::string &nameEntity);
+    Hero(const Vector2 &position, const unsigned int layer, const std::vector<std::string> textureFiles);
     virtual ~Hero() = default;
 
     void update() override;
-    void render() override;
 };
 
 #endif //_HERO_H

@@ -5,11 +5,11 @@
 
 #include <game/Game.h>
 
-Game::Game() : m_gameState(GameState::PLAY)
+Game::Game() : m_gameState(GameState::PLAY), m_pressed()
 {
     initGame();
     GameManager::initialize();
-    loadGame("assets/maps/map.txt");
+    GameManager::getInstance().m_pressed = &m_pressed;
 }
 
 Game::~Game()
@@ -38,16 +38,9 @@ void Game::initGame()
     // Theme::loadTextureMap();
 }
 
-void Game::loadGame(const std::string &filename)
-{
-    // m_map = std::make_shared<Map>(filename);
-}
 
 void Game::gameLoop()
 {
-    //// The main event loop
-    std::set<char> keyDown;
-    GameManager::getInstance().m_keyDown = &keyDown;
 
     while (m_gameState != GameState::EXIT)
     {
@@ -66,7 +59,7 @@ void Game::gameLoop()
             }
             if (event.type == SDL_KEYDOWN)
             {
-                keyDown.insert((char)event.key.keysym.sym);
+                m_pressed.insert((char)event.key.keysym.sym);
             }
         }
 
@@ -83,7 +76,7 @@ void Game::gameLoop()
             SDL_Delay(TICKS_PER_FRAME - frameTime);
         }
 
-        keyDown.clear();
+        m_pressed.clear();
     }
 }
 
