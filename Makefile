@@ -16,9 +16,15 @@ EXCLUDE_DIRS = $(SRC_DIR)/combat
 # Tous les fichiers .cpp
 ALL_SOURCES = $(shell find $(SRC_DIR) -name '*.cpp')
 
+EXCLUDE_FILES = $(SRC_DIR)/mainC.cpp $(SRC_DIR)/mainM.cpp
+
+
+# Exclusion des fichiers spécifiés
+NOSOURCES = $(filter-out $(EXCLUDE_FILES), $(ALL_SOURCES))
+
 # Supprimer les fichiers qui sont dans les dossiers exclus
 EXCLUDED_SOURCES = $(foreach dir,$(EXCLUDE_DIRS),$(shell find $(dir) -name '*.cpp'))
-SOURCES = $(filter-out $(EXCLUDED_SOURCES),$(ALL_SOURCES))
+SOURCES = $(filter-out $(EXCLUDED_SOURCES),$(NOSOURCES))
 
 # Chemins objets (dans build/bin)
 OBJECTS = $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SOURCES))
