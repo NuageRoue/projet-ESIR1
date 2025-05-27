@@ -37,4 +37,4 @@ src/mainC.*
 compile_commands.json
 ./main
 .vscode
-./build/**
+./build
