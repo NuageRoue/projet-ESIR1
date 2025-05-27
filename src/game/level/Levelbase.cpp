@@ -2,7 +2,7 @@
 
 #include <game/level/LevelBase.h>
 
-LevelBase::LevelBase(std::unique_ptr<Player> player, std::unique_ptr<Camera> camera, std::unique_ptr<Map> map, std::vector<std::vector<int>>)
+LevelBase::LevelBase(std::unique_ptr<Player> player, std::unique_ptr<Camera> camera, std::unique_ptr<Map> map)
     : m_entities(), m_player(std::move(player)), m_camera(std::move(camera)), m_map(std::move(map))
 {
 }
