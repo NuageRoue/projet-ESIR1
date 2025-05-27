@@ -14,6 +14,7 @@ class Level2 : public LevelBase
                     std::unique_ptr<Map>(new Map(Vector2F(0, 0), "map", Reader::loadData("assets/map/map_2.csv"))),
                     std::unique_ptr<EndMap>(nullptr))
     {
+      //trouver taille map pour determiner position fin du niveau
         Vector2F fin = m_map->getTaille();
         Vector2I fin_valide = Vector2I(fin[0] - 2, fin[1] - 2);
 

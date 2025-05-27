@@ -27,6 +27,7 @@ void LevelBase::render()
     m_camera->render(ref);
 }
 
+//mise a jour elem du niveau
 void LevelBase::update()
 {
     std::for_each(m_entities.begin(), m_entities.end(),

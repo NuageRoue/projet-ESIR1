@@ -15,7 +15,9 @@ class GameManager
   private:
     static std::unique_ptr<GameManager> m_singleton;
 
+    //niveau courant
     std::unique_ptr<LevelBase> m_current;
+    //bool fin ?
     bool m_fighting;
 
   private:
