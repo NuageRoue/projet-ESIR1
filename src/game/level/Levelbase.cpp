@@ -37,6 +37,8 @@ void LevelBase::update()
     m_map->update();
 }
 
+
+
 Player &LevelBase::getPlayer()
 {
     return *m_player.get();

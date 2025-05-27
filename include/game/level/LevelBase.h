@@ -4,10 +4,10 @@
 #include <memory>
 #include <vector>
 
-#include <entity/Entity.h>
-#include <entity/Player.h>
 #include <entity/Camera.h>
+#include <entity/Entity.h>
 #include <entity/Map.h>
+#include <entity/Player.h>
 
 class LevelBase
 {
@@ -28,6 +28,9 @@ class LevelBase
 
     void render();
     void update();
+
+    virtual std::unique_ptr<LevelBase> getNextLevel() = 0;
+
     Player &getPlayer();
     Camera &getCamera();
     Map &getMap();
