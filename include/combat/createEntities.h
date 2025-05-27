@@ -127,6 +127,7 @@ class createEntities {
         return heroes;
     }
 
+    /*
     std::vector<Player*> heroes;
 
     std::vector<Attack *> brianAttacks;
@@ -136,7 +137,7 @@ class createEntities {
     brianAttacks.push_back(new AttackToLife(3, "Estoc", 20));
 
     std::vector<Item *> brianItems;
-    Player *player = new Player(100.0, 10, "Brian", brianAttacks, brianItems);
+    Player *player = new Player(100.0, 10, "Brian", brianAttacks, brianItems);*/
     
 
 
