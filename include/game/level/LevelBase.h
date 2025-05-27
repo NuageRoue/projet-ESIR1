@@ -8,6 +8,7 @@
 #include <entity/Entity.h>
 #include <entity/Map.h>
 #include <entity/Player.h>
+#include <entity/EndMap.h>
 
 class LevelBase
 {
@@ -20,8 +21,9 @@ class LevelBase
     std::unique_ptr<Player> m_player;
     std::unique_ptr<Camera> m_camera;
     std::unique_ptr<Map> m_map;
+    std::unique_ptr<EndMap> m_endmap;
 
-    LevelBase(std::unique_ptr<Player> player, std::unique_ptr<Camera> camera, std::unique_ptr<Map> map);
+    LevelBase(std::unique_ptr<Player> player, std::unique_ptr<Camera> camera, std::unique_ptr<Map> map,std::unique_ptr<EndMap> endmap);
 
   public:
     virtual ~LevelBase() = default;
@@ -34,6 +36,7 @@ class LevelBase
     Player &getPlayer();
     Camera &getCamera();
     Map &getMap();
+    EndMap &getEndMap();
 };
 
 #endif

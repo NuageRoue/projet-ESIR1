@@ -7,7 +7,11 @@ class EndMap : public Entity
 {
 
   public:
-    EndMap();
+
+    Vector2F m_grid;
+    bool m_fin;
+    
+    EndMap(Vector2F grid);
     ~EndMap() override = default;
 
     void update() override;

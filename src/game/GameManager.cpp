@@ -38,4 +38,7 @@ void GameManager::render()
 void GameManager::update()
 {
     m_current->update();
+    if (getLevel().getEndMap().m_fin){
+        m_current = getLevel().getNextLevel();
+    }
 }
