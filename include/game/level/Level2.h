@@ -1,5 +1,5 @@
-#ifndef __LEVEL_TEST_E_H
-#define __LEVEL_TEST_E_H
+#ifndef __LEVEL_2_H
+#define __LEVEL_2_H
 
 #include <utils/Reader.h>
 
