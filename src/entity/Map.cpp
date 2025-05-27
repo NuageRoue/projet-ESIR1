@@ -4,8 +4,8 @@
 
 #include <entity/Map.h>
 
-Map::Map(const Vector2F &position, const std::string &name)
-    : Entity(position, name, 0), m_map(), m_unitX(0), m_unitY(0), m_textures()
+Map::Map(const Vector2F &position, const std::string &name, std::vector<std::vector<int>> map)
+    : Entity(position, name, 0), m_map(map), m_unitX(0), m_unitY(0), m_textures()
 {
     {
         int index = 0;
@@ -16,8 +16,6 @@ Map::Map(const Vector2F &position, const std::string &name)
             m_textures.push_back(manager.loadTexture(file, name + std::to_string(index)));
         }
     }
-
-    m_map = Reader::getData();
 
     m_unitY = m_map.size();
     m_unitX = m_map.front().size();

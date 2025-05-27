@@ -19,7 +19,7 @@ class Map : public Entity
 
   public:
     /// Constructeur du héros
-    Map(const Vector2F &position, const std::string &name);
+    Map(const Vector2F &position, const std::string &name, std::vector<std::vector<int>> map);
     ~Map() override = default;
 
     void update() override;
