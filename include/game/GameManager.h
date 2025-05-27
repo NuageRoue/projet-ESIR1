@@ -7,7 +7,6 @@
 
 #include <game/level/LevelBase.h>
 
-
 class GameManager
 {
   private:
@@ -37,6 +36,8 @@ class GameManager
     // update render
     void render();
     void update();
+
+    bool finalEnd() const;
 };
 
 #endif

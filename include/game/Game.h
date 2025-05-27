@@ -1,18 +1,17 @@
 #ifndef __GAME__H
 #define __GAME__H
 
-#include <utils/Timer.h>
-
 #include <set>
+#include <utils/Timer.h>
 
 class Game
 {
-
   private:
     enum class GameState
     {
         PLAY,
         PAUSE,
+        END,
         EXIT
     };
     GameState m_gameState; // Etat du jeu

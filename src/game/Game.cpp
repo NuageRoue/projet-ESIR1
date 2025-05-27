@@ -54,6 +54,12 @@ void Game::gameLoop()
 
         GameManager &manager = GameManager::getInstance();
         manager.update();
+
+        if (manager.finalEnd()) {
+            m_gameState = GameState::END;
+            break;
+        }
+
         manager.render();
 
         Renderer::getInstance().render();
