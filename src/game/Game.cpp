@@ -55,7 +55,8 @@ void Game::gameLoop()
         GameManager &manager = GameManager::getInstance();
         manager.update();
 
-        if (manager.finalEnd()) {
+        if (manager.finalEnd())
+        {
             m_gameState = GameState::END;
             break;
         }
@@ -73,13 +74,28 @@ void Game::gameLoop()
     }
 }
 
+#include <cmath>
+
 void Game::endGame()
 {
-    EventHandler &event = EventHandler::getInstance();
-    event.update();
-    while(event.isQuitting()==false){
-        
+    {
+        EventHandler &event = EventHandler::getInstance();
+
+        Texture *texture = TextureManager::getInstance().loadTexture("assets/fini.png", "textureFin");
+        Renderer &render = Renderer::getInstance();
+
+        float rotation = 0.0f;
+
+        while (event.isQuitting() == false)
+        {
+            event.update();
+            render.drawTexture(texture, Vector2F(Config::width, Config::height) / 2,
+                               Vector2F(Config::width, Config::height), rotation);
+            render.render();
+            rotation += 0.001f;
+        }
     }
+
     std::cout << "Shutting down game manager" << std::endl;
     GameManager::finalize();
 
