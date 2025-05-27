@@ -10,7 +10,7 @@ class LevelTest : public LevelBase
 {
   public:
     LevelTest()
-        : LevelBase(std::unique_ptr<Player>(new Player(Vector2F(1.5, 1.5) * Config::tile)),
+        : LevelBase(std::unique_ptr<PlayerWord>(new PlayerWord(Vector2F(1.5, 1.5) * Config::tile)),
                     std::unique_ptr<Camera>(new Camera(Vector2F(0, 0))),
                     std::unique_ptr<Map>(new Map(Vector2F(0, 0), "map", Reader::getData())),std::unique_ptr<EndMap>(new EndMap(Vector2F(15,5))))
     {
