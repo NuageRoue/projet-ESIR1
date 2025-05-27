@@ -1,5 +1,6 @@
 #include <algorithm>
-#include <ctime>
+#include <limits>
+
 #include <entity/Player.h>
 
 #include <game/EventHandler.h>
@@ -12,7 +13,7 @@ Player::Player(const Vector2F &position)
 
 void Player::update()
 {
-    Vector2F delta;
+    Vector2F delta(0, 0);
 
     for (const char &key : EventHandler::getInstance().getActive())
     {
@@ -40,24 +41,24 @@ void Player::update()
         }
     }
 
-    const Vector2F next = getPosition() + delta * Config::tile;
-    delta = next;
-    Vector2I grid = (delta / Config::tile).floor();
-    //std::cout << grid[0] << ", " << grid[1] << std::endl;
-    int type = GameManager::getLevel().getMap().getType(grid);
-
-    //verif si on peut se deplacer
-    if (std::find(Config::mapCollision.begin(), Config::mapCollision.end(), type) == Config::mapCollision.end())
+    if (delta != Vector2F(0, 0))
     {
-        const Vector2F temp = getPosition();
-        setPosition(next);
-        if (temp != next){
-            std::cout << "Combat ?"<< std::endl;
-            //verif si on declanche un combat
-            std::srand(std::time({}));
-            const int nombre_random = std::rand();  //nombre entre 0 et RAND_MAX
-            if (nombre_random <= RAND_MAX/5){
-                std::cout << "Combat !"<< std::endl;
+        const Vector2F next = getPosition() + delta * Config::tile;
+        delta = next;
+        m_grid = (delta / Config::tile).floor();
+        int type = GameManager::getLevel().getMap().getType(m_grid);
+
+        // verif si on peut se deplacer
+        if (std::find(Config::mapCollision.begin(), Config::mapCollision.end(), type) == Config::mapCollision.end())
+        {
+            const Vector2F temp = getPosition();
+            setPosition(next);
+
+            const float rand = 2.0f * static_cast<float>(random()) / std::numeric_limits<float>::max();
+
+            if (rand > 0.0f)
+            {
+                std::cout << "Combat !" << std::endl;
             }
         }
     }
@@ -72,4 +73,9 @@ void Player::render(const Vector2F &ref)
     TextureEntity::render(ref);
 
     setPosition(last);
+}
+
+const Vector2I &Player::getGrid() const
+{
+    return m_grid;
 }

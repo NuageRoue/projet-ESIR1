@@ -5,6 +5,9 @@
 
 class Player : public TextureEntity
 {
+  private:
+    Vector2I m_grid;
+
   public:
     Player(const Vector2F &position);
 
@@ -12,6 +15,8 @@ class Player : public TextureEntity
 
     void update() override;
     void render(const Vector2F &ref) override;
+
+    const Vector2I &getGrid() const;
 };
 
 #endif
