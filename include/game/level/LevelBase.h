@@ -30,6 +30,7 @@ class LevelBase
     void update();
     Player &getPlayer();
     Camera &getCamera();
+    Map &getMap();
 };
 
 #endif

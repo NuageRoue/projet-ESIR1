@@ -24,6 +24,8 @@ class Map : public Entity
 
     void update() override;
     void render(const Vector2F &ref) override;
+
+    int getType(const Vector2I &v) const;
 };
 
 #endif

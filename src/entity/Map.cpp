@@ -27,6 +27,11 @@ void Map::update()
 {
 }
 
+int Map::getType(const Vector2I &v) const
+{
+    return m_map.at(v[1]).at(v[0]);
+}
+
 void Map::render(const Vector2F &ref)
 {
     int type;

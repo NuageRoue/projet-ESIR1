@@ -2,6 +2,7 @@
 #define _VECTOR2_H
 
 #include <cmath>
+#include <iostream>
 
 template <class T> class Vector2
 {
@@ -13,6 +14,7 @@ template <class T> class Vector2
     Vector2(T x = 0.0, T y = 0.0) : m_values{x, y}
     {
     }
+
 
     T operator[](unsigned int index) const
     {
@@ -87,6 +89,10 @@ template <class T> class Vector2
         return (v - (*this)).normalized();
     }
 
+    Vector2<int> floor() const
+    {
+        return Vector2<int>(m_values[0], m_values[1]);
+    }
 };
 
 using Vector2F = Vector2<float>;

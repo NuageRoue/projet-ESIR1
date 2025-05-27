@@ -46,3 +46,8 @@ Camera &LevelBase::getCamera()
 {
     return *m_camera.get();
 }
+
+Map &LevelBase::getMap()
+{
+    return *m_map.get();
+}

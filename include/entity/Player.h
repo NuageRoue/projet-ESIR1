@@ -12,8 +12,6 @@ class Player : public TextureEntity
 
     void update() override;
     void render(const Vector2F &ref) override;
-
-    Vector2I getGridVector() const;
 };
 
 #endif

@@ -1,6 +1,9 @@
+#include <algorithm>
+
 #include <entity/Player.h>
 
 #include <game/EventHandler.h>
+#include <game/GameManager.h>
 
 Player::Player(const Vector2F &position)
     : TextureEntity(position, Config::playerTag, Config::playerLayer, Config::playerTexture)
@@ -37,7 +40,16 @@ void Player::update()
         }
     }
 
-    setPosition(getPosition() + delta * Config::tile);
+    const Vector2F next = getPosition() + delta * Config::tile;
+    delta = next;
+    Vector2I grid = (delta / Config::tile).floor();
+    std::cout << grid[0] << ", " << grid[1] << std::endl;
+    int type = GameManager::getLevel().getMap().getType(grid);
+
+    if (std::find(Config::mapCollision.begin(), Config::mapCollision.end(), type) == Config::mapCollision.end())
+    {
+        setPosition(next);
+    }
 }
 
 void Player::render(const Vector2F &ref)
@@ -49,10 +61,4 @@ void Player::render(const Vector2F &ref)
     TextureEntity::render(ref);
 
     setPosition(last);
-}
-
-Vector2I Player::getGridVector() const
-{
-    Vector2F pos = getPosition();
-    return Vector2I(pos[0], pos[1]);
 }

@@ -20,6 +20,8 @@ static constexpr char playerTexture[] = "./assets/tiles/liquidWater.png";
 static const std::vector<std::string> mapTextures = {"assets/tiles/GRASS.png", "assets/tiles/BRICK2.png",
                                                      "assets/tiles/WATER.png", "assets/tiles/LAVA.png"};
 
+static const std::vector<int> mapCollision = {1};
+
 }; // namespace Config
 
 #endif
