@@ -6,7 +6,7 @@
 
 std::unique_ptr<GameManager> GameManager::m_singleton = nullptr;
 
-GameManager::GameManager() : m_current(nullptr)
+GameManager::GameManager() : m_current(nullptr), m_fighting(false)
 {
     m_current = std::unique_ptr<LevelBase>(new LevelTest());
 }
@@ -42,9 +42,20 @@ void GameManager::update()
     {
         m_current = getLevel().getNextLevel();
     }
+
+    if (m_fighting)
+    {
+        std::cout << "Combat !" << std::endl;
+        setFighting(false);
+    }
 }
 
 bool GameManager::finalEnd() const
 {
     return m_current.get() == nullptr;
+}
+
+void GameManager::setFighting(bool fight)
+{
+    m_fighting = fight;
 }
