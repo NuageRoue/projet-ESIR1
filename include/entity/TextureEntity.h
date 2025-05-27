@@ -15,13 +15,15 @@ class TextureEntity : public Entity
   public:
     // Constructeur et destructeur
     TextureEntity(const Vector2F &position, const std::string &name, const unsigned int layer,
-               const std::string &textureFile);
+                  const std::string &textureFile);
 
     ~TextureEntity() override = default;
 
     // update et render
     void render(const Vector2F &ref) override;
     void update() override;
+
+    void changeTexture(Texture *texture);
 };
 
 #endif

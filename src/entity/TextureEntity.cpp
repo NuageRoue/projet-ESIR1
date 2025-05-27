@@ -22,3 +22,8 @@ void TextureEntity::update()
     setPosition(GameManager::getLevel().getPlayer().getPosition());
     std::cout << getPosition()[0] << ", " << getPosition()[1] << std::endl;
 }
+
+void TextureEntity::changeTexture(Texture *texture)
+{
+    m_texture = texture;
+}

@@ -16,6 +16,7 @@ class GameManager
     static std::unique_ptr<GameManager> m_singleton;
 
     std::unique_ptr<LevelBase> m_current;
+    bool m_fighting;
 
   private:
     GameManager();
@@ -36,6 +37,7 @@ class GameManager
     // update render
     void render();
     void update();
+    void setFighting(bool fight);
 
     bool finalEnd() const;
 };
