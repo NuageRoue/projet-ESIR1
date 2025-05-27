@@ -88,3 +88,7 @@ void Map::render(const Vector2F &ref)
         }
     }
 }
+
+Vector2F Map::getTaille(){
+    return Vector2F(m_unitX,m_unitY);
+}
