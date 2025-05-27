@@ -1,4 +1,4 @@
-﻿name;maxHP;normalSpeed;attacks
-Brian;100;10;brianAttacks
-Ryann;120;4;brianAttacks
-Adrienne;70;12;brianAttacks
+﻿name;maxHP;normalSpeed;attacks;texturePath
+Brian;100;10;brianAttacks;brian.png
+Ryann;120;4;brianAttacks;ryann.png
+Adrienne;70;12;brianAttacks;adrienne.png

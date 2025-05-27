@@ -85,7 +85,7 @@ class createEntities {
                     int speed = std::stoi(data[i][2]);
                     int lootXP = std::stoi(data[i][4]);
                     unsigned int damage = std::stoi(data[i][2]);
-                    std::string texture = "assets/entities/"+data[i][4];
+                    std::string texture = "assets/entities/"+data[i][6];
                     enemies.push_back(new Enemy(maxHP, speed, data[i][0], lootXP, enemyAttacks, texture));
                     std::cout << data[i][j] << std::endl;
                 }   
@@ -118,7 +118,7 @@ class createEntities {
                     // Création d'un vecteur d'items vide pour le joueur
                     std::vector<Item*> playerItems;
                     unsigned int damage = std::stoi(data[i][2]);
-                    std::string texture = "assets/entities/"+data[i][6];
+                    std::string texture = "assets/entities/"+data[i][4];
                     heroes.push_back(new Player(maxHP, speed, data[i][0], heroAttacks, playerItems, texture));
                     std::cout << data[i][j] << std::endl;
                 }   
@@ -126,6 +126,19 @@ class createEntities {
         }
         return heroes;
     }
+
+    std::vector<Player*> heroes;
+
+    std::vector<Attack *> brianAttacks;
+    brianAttacks.push_back(new AttackToLife(-1, "Taille", 5));
+    brianAttacks.push_back(new AttackToLife(5, "Coup de pommeau", 10));
+    brianAttacks.push_back(new AttackToLife(5, "Entaille", 15));
+    brianAttacks.push_back(new AttackToLife(3, "Estoc", 20));
+
+    std::vector<Item *> brianItems;
+    Player *player = new Player(100.0, 10, "Brian", brianAttacks, brianItems);
+    
+
 
 
 };
