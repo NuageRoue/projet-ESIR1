@@ -17,6 +17,7 @@ class Level2 : public LevelBase
 
     std::unique_ptr<LevelBase> getNextLevel() override
     {
+      return std::unique_ptr<LevelBase>(nullptr);
     }
 
     ~Level2() override = default;
