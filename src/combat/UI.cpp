@@ -2,6 +2,8 @@
 #include <iostream>
 #include <string>
 
+#include "combat/CombatManager.h"
+#include "combat/Player.h"
 #include "imgui.h"
 #include "backends/imgui_impl_sdl2.h"
 #include "backends/imgui_impl_sdlrenderer2.h"
@@ -47,60 +49,59 @@ void UI::setSelectWindow()
 	
 }
 
-void UI::displaySelectWindow()
+void UI::displaySelectWindow(CombatManager *manager)
 {
+	Player *player = manager->getCurrentHero();
     bool disabled = UI::isDisplayingText;
     if (disabled)
         ImGui::BeginDisabled();
 
     ImGui::SetCursorPos(ImVec2(100, 40));
-    if (ImGui::Button("Action 1", ImVec2(250, 40)))
-        useAttack(1);
+    if (player->getAttacks()[0]->canAttack() && ImGui::Button(player->getAttacks()[0]->getName().data(), ImVec2(250, 40)))
+        useAttack(0, manager);
 
     ImGui::SetCursorPos(ImVec2(450, 40));
-    if (ImGui::Button("Action 2", ImVec2(250, 40)))
-        useAttack(2);
+    if (player->getAttacks()[1]->canAttack() && ImGui::Button(player->getAttacks()[1]->getName().data(), ImVec2(250, 40)))
+        useAttack(1, manager);
 
     ImGui::SetCursorPos(ImVec2(100, 120));
-    if (ImGui::Button("Action 3", ImVec2(250, 40)))
-        useAttack(3);
+    if (player->getAttacks()[2]->canAttack() && ImGui::Button(player->getAttacks()[2]->getName().data(), ImVec2(250, 40)))
+        useAttack(2, manager);
 
     ImGui::SetCursorPos(ImVec2(450, 120));
-    if (ImGui::Button("Action 4", ImVec2(250, 40)))
-        useAttack(4);
+    if (player->getAttacks()[3]->canAttack() && ImGui::Button(player->getAttacks()[3]->getName().data(), ImVec2(250, 40)))
+        useAttack(3, manager);
 
     if (disabled)
         ImGui::EndDisabled();
     	
-	if(hasClickedThisFrame)
-	{
-		hasClickedThisFrame = false;
-		isDisplayingText = false;
-	}
 
-	displayTextMessage();
+
+	displayTextMessage(manager);
 	ImGui::End();
 }
 
-void UI::useAttack(int id)
+void UI::useAttack(unsigned int id, CombatManager *manager)
 {
 	if (UI::isDisplayingText)
 		return;
 	std::cout << "Using attack " << id << "." << std::endl ;
 	//std::string message = "attaque " + std::to_string(id);
-	setTextMessage("attaque " + std::to_string(id));
+	manager->handlePlayerInput(id);
+	hasClickedThisFrame = false;
+	//setTextMessage("attaque " + std::to_string(id));
 }
 
-void UI::displayUI()
+void UI::displayUI(CombatManager *manager)
 {
         ImGui_ImplSDLRenderer2_NewFrame();
         ImGui_ImplSDL2_NewFrame();
         ImGui::NewFrame();
 
 	setFightWindow();
-	displayFightWindow();
+	displayFightWindow(manager->getCurrentHero(), manager->getCurrentEnemy());
 	setSelectWindow();
-	displaySelectWindow();
+	displaySelectWindow(manager);
 
         ImGui::Render();
 }
@@ -114,14 +115,14 @@ void UI::flushUI()
 
 void UI::setTextMessage(std::string message)
 {
-	std::cout << "displaying text" << std::endl;
+	//std::cout << "displaying text" << std::endl;
 	UI::isDisplayingText = true;
 	UI::textToDisplay = message;
 	//ImGui::SetCursorPos(ImVec2(20,20));
 
 }
 
-void UI::displayTextMessage()
+void UI::displayTextMessage(CombatManager *manager)
 {
 	if (UI::isDisplayingText)
 	{
@@ -140,6 +141,15 @@ void UI::displayTextMessage()
 		ImGui::EndChild();
 
 		ImGui::PopStyleColor();
+
+
+		if(hasClickedThisFrame)
+		{
+			hasClickedThisFrame = false;
+			isDisplayingText = false;
+			manager->updateState();
+		}
+
 	}
 }
 
@@ -178,7 +188,7 @@ void UI::setFightWindow()
 	ImGui::End();
 }*/
 
-void UI::displayFightWindow()
+void UI::displayFightWindow(Player *player, Enemy *enemy)
 {
 
 	ImVec2 spriteSize = ImVec2(128, 128);
@@ -187,9 +197,9 @@ void UI::displayFightWindow()
 	ImGui::SetCursorPos(ImVec2(100,100));
 	
 	ImGui::BeginGroup();
-	ImGui::Text("Joueur");
+	ImGui::TextUnformatted(player->getName().data());
 
-	drawHealthBar(13, 20, ImVec2(200, 20));
+	drawHealthBar(player->getActualHP(), player->getMaxHP(), ImVec2(200, 20));
 	ImGui::SetCursorPosX(136);
 	ImGui::Dummy(spriteSize);
 	ImGui::GetWindowDrawList()->AddRectFilled(
@@ -204,9 +214,9 @@ void UI::displayFightWindow()
 
 	// Groupe Ennemi
 	ImGui::BeginGroup();
-	ImGui::Text("Ennemi");
+	ImGui::TextUnformatted(enemy->getName().data());
 
-	drawHealthBar(6, 20, ImVec2(200, 20));
+	drawHealthBar(enemy->getActualHP(), enemy->getMaxHP(), ImVec2(200, 20));
 	// Placeholder : rectangle gris
 	ImGui::SetCursorPosX(536);
 	ImGui::Dummy(spriteSize);

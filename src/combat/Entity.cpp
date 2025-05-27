@@ -3,7 +3,7 @@
 #include <cassert>
 
 Entity::Entity(double _maxHP, unsigned int _speed, std::string _name, std::vector<Attack*> _attacks)
-: maxHP(_maxHP), actualHP(_maxHP), speed(_speed), name(_name), attacks(_attacks)
+: maxHP(_maxHP), actualHP(_maxHP), speed(_speed), name(_name), attacks(_attacks), normalSpeed(_speed)
 {}
 
 Entity::~Entity()
@@ -14,7 +14,7 @@ Entity::~Entity()
     }
 }
 
-Entity::Entity(const Entity &that)
+/*Entity::Entity(const Entity &that)
 {
     maxHP = that.getMaxHP();
     actualHP = that.getActualHP();
@@ -38,7 +38,7 @@ Entity& Entity::operator=(const Entity& that)
         }
     }
     return *this;
-}
+}*/
 
 const double &Entity::getMaxHP() const
 {
@@ -67,17 +67,32 @@ const std::vector<Attack*> &Entity::getAttacks() const
 
 void Entity::decreaseHP(double dmg)
 {
+    std::cout << "decreasing hp" << std::endl;
     assert(getActualHP()>0);
-    if(actualHP - dmg >= 0)
+    actualHP -= dmg;
+    /*if(actualHP - dmg >= 0)
     {
         actualHP -= dmg;
     } else {
         actualHP = 0;
-    }
-    
+    }*/
 }
 
-void Entity::attack(Entity *target, Attack *attack)
+const double Entity::getBuff() const
+{
+	return buff;
+}
+double &Entity::getBuff()
+{
+	return buff;
+}
+
+const unsigned int Entity::getLevel() const
+{
+	return level;
+}
+
+/*void Entity::attack(Entity *target, Attack *attack)
 {
     double dmg;
     if (attack->canAttack())
@@ -89,4 +104,4 @@ void Entity::attack(Entity *target, Attack *attack)
             attack->decreasePP();
         }
     }
-}
+}*/

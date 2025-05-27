@@ -26,7 +26,7 @@ class Player : public Entity{
     const double getLevelCap() const;
     const std::vector<Item*> & getItems() const;
 
-    Attack * chooseAttack() const override;
+    //Attack * chooseAttack() const override;
     void increaseXP(double xp);
     void addItems(std::vector<Item*> itemsToAdd);
 

@@ -5,7 +5,6 @@
 #include <cstdlib>
 #include <iostream>
 #include <tuple>
-#include "Enemy.h"
 
 Enemy::Enemy(double _maxHP, unsigned int _speed, std::string _name, double _lootXP, std::vector<Attack*> _attacks)
 :Entity(_maxHP, _speed, _name, _attacks), lootXP(_lootXP)

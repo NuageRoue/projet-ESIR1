@@ -36,24 +36,6 @@ const std::vector<Item *> &Player::getItems() const
     return items;
 }
 
-Attack * Player::chooseAttack() const 
-{
-    std::cout << "Veuillez choisir le numéro d'une attaque parmi les attaques suivantes :" << std::endl;
-    for(int i = 0; i<attacks.size(); i++)
-    {
-        if (attacks[i]->canAttack())
-        {
-            std::cout << i << " : " << attacks[i]->getName() << ", PP : " << attacks[i]->getPPActual() << std::endl;
-        }
-    }
-    int attaqueChoisie;
-    do
-    {
-        std::cin >> attaqueChoisie;
-    } while (attaqueChoisie>=attacks.size() || !attacks[attaqueChoisie]->canAttack());
-    
-    return attacks[attaqueChoisie];
-}
 
 void Player::increaseXP(double gainedXP)
 {
