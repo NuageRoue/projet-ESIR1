@@ -35,14 +35,22 @@ private:
 public:
 	CombatManager(std::vector<Player*> company, std::vector<Enemy*> horde);
 	
+	void switchCurrentHero(int id);
+
 	bool update(); // changes combat state
 	
 	void handlePlayerInput(int actionID);
 
 	void updateState();
+	
+	bool HasMultipleHeroes();
 
 	Player *getCurrentHero();
 	Enemy *getCurrentEnemy();
+	
+	unsigned int getNbHeroAlive();
+	unsigned int getIDCurrentHero();
+	std::vector<Player*> getCompany();
 };
 
 #endif

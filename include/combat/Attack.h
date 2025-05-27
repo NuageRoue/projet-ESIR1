@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <string>
-class Entity;
+class EntityCombat;
 
 
 class Attack{
@@ -22,7 +22,7 @@ class Attack{
         //const double & getAttackDmg() const;
         
 
-	virtual void attack(Entity *caster, Entity *target);
+	virtual void attack(EntityCombat *caster, EntityCombat *target);
 
 	const int getPPMax() const;
         const int getPPActual() const;
@@ -31,7 +31,7 @@ class Attack{
         bool canAttack();
         void decreasePP();
 	
-	virtual std::string attackMessage(Entity *caster, Entity *target) = 0;
+	virtual std::string attackMessage(EntityCombat *caster, EntityCombat *target) = 0;
 
 };
 

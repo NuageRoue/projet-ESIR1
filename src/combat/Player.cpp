@@ -1,6 +1,5 @@
 #include "combat/Player.h"
 #include "combat/Enemy.h"
-
 #include <iostream>
 #include <cassert>
 

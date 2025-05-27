@@ -10,6 +10,7 @@
 
 bool UI::isDisplayingText = false;
 bool UI::hasClickedThisFrame = false;
+bool UI::SelectHero = false;
 std::string UI::textToDisplay = "";
 
 void UI::processEvent(const SDL_Event *event)
@@ -48,7 +49,48 @@ void UI::setSelectWindow()
             ImGuiWindowFlags_NoTitleBar);
 	
 }
+void UI::displaySelectHeroWindow(CombatManager*manager)
+{
+	Player *player = manager->getCurrentHero();
+    bool disabled = UI::isDisplayingText;
+    if (disabled)
+        ImGui::BeginDisabled();
 
+
+	unsigned int currentHeroID = manager->getIDCurrentHero();
+	int nbHeroAlive = manager->getNbHeroAlive() - 1;
+	std::vector<Player*> heroes = manager->getCompany();
+
+	int nbWhiteSpace = nbHeroAlive + 1;
+	double widthWhiteSpace = (double)(800 - (250 * nbHeroAlive)) / nbWhiteSpace;
+		
+	ImGui::SetCursorPos(ImVec2(20, 40));
+	for (int i = 0; i < nbHeroAlive; i++)
+	{
+      		ImGui::SameLine((i+1) * widthWhiteSpace + i * 250);
+		
+    		if (ImGui::Button(heroes[i+1]->getName().data(), ImVec2(250, 40)))
+		{
+			useAttack(-(i+1),manager);
+			SelectHero = false;
+		}
+		
+	}
+
+
+
+    ImGui::SetCursorPos(ImVec2(275, 140));
+    if (ImGui::Button("Garder le héros actuel", ImVec2(250, 40)))
+		SelectHero = false;
+    if (disabled)
+        ImGui::EndDisabled();
+    	
+
+
+	displayTextMessage(manager);
+	ImGui::End();
+
+}
 void UI::displaySelectWindow(CombatManager *manager)
 {
 	Player *player = manager->getCurrentHero();
@@ -57,7 +99,7 @@ void UI::displaySelectWindow(CombatManager *manager)
         ImGui::BeginDisabled();
 
 	std::string message;
-    ImGui::SetCursorPos(ImVec2(100, 40));
+    ImGui::SetCursorPos(ImVec2(100, 20));
 
 	message = player->getAttacks()[0]->getName();
 	if (player->getAttacks()[0]->getPPActual() >= 0)
@@ -65,27 +107,31 @@ void UI::displaySelectWindow(CombatManager *manager)
     if (player->getAttacks()[0]->canAttack() && ImGui::Button(message.data(), ImVec2(250, 40)))
         useAttack(0, manager);
 
-    ImGui::SetCursorPos(ImVec2(450, 40));
+    ImGui::SetCursorPos(ImVec2(450, 20));
 	message = player->getAttacks()[1]->getName();
 	if (player->getAttacks()[1]->getPPActual() >= 0)
 		message += ": " + std::to_string(player->getAttacks()[1]->getPPActual()) + "/" + std::to_string(player->getAttacks()[1]->getPPMax());
     if (player->getAttacks()[1]->canAttack() && ImGui::Button(message.data(), ImVec2(250, 40)))
         useAttack(1, manager);
 
-    ImGui::SetCursorPos(ImVec2(100, 120));
+    ImGui::SetCursorPos(ImVec2(100, 80));
 	message = player->getAttacks()[2]->getName();
 	if (player->getAttacks()[2]->getPPActual() >= 0)
 		message += ": " + std::to_string(player->getAttacks()[2]->getPPActual()) + "/" + std::to_string(player->getAttacks()[2]->getPPMax());
     if (player->getAttacks()[2]->canAttack() && ImGui::Button(message.data(), ImVec2(250, 40)))
         useAttack(2, manager);
 
-    ImGui::SetCursorPos(ImVec2(450, 120));
+    ImGui::SetCursorPos(ImVec2(450, 80));
 	message = player->getAttacks()[3]->getName();
 	if (player->getAttacks()[3]->getPPActual() >= 0)
 		message += ": " + std::to_string(player->getAttacks()[3]->getPPActual()) + "/" + std::to_string(player->getAttacks()[3]->getPPMax());
     if (player->getAttacks()[3]->canAttack() && ImGui::Button(message.data(), ImVec2(250, 40)))
         useAttack(3, manager);
 
+	
+    ImGui::SetCursorPos(ImVec2(275, 140));
+    if (manager->HasMultipleHeroes() && ImGui::Button("changer de héros", ImVec2(250, 40)))
+		SelectHero = true;
     if (disabled)
         ImGui::EndDisabled();
     	
@@ -95,7 +141,7 @@ void UI::displaySelectWindow(CombatManager *manager)
 	ImGui::End();
 }
 
-void UI::useAttack(unsigned int id, CombatManager *manager)
+void UI::useAttack(int id, CombatManager *manager)
 {
 	if (UI::isDisplayingText)
 		return;
@@ -115,7 +161,10 @@ void UI::displayUI(CombatManager *manager)
 	setFightWindow();
 	displayFightWindow(manager->getCurrentHero(), manager->getCurrentEnemy());
 	setSelectWindow();
-	displaySelectWindow(manager);
+	if (SelectHero)
+		displaySelectHeroWindow(manager);
+	else
+		displaySelectWindow(manager);
 
         ImGui::Render();
 }
@@ -260,3 +309,5 @@ void UI::drawHealthBar(int hp, int maxHP, ImVec2 size)
 	ImGui::ProgressBar(fraction, size);
 	ImGui::PopStyleColor();
 }
+
+

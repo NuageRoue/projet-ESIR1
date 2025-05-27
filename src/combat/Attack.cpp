@@ -55,7 +55,7 @@ void Attack::decreasePP()
 }
 
 
-void Attack::attack(Entity*caster, Entity*target)
+void Attack::attack(EntityCombat*caster, EntityCombat*target)
 {
 	decreasePP();
 

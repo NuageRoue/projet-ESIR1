@@ -12,16 +12,34 @@ CombatManager::CombatManager(std::vector<Player*> company, std::vector<Enemy*> h
 void CombatManager::handlePlayerInput(int actionID)
 {
 	std::cout << "combat manager: receiving" << actionID << std::endl;
-	switch (actionID) 
+	if (actionID >= 0)
 	{
-		case 0:
-		case 1:
-		case 2:
-		case 3:
-			currentAttack = company[currentHero]->getAttacks()[actionID]; // we select the attack
-			break;
+		switch (actionID) 
+		{
+			case 0:
+			case 1:
+			case 2:
+			case 3:
+				currentAttack = company[currentHero]->getAttacks()[actionID]; // we select the attack
+				break;
+		}
+	}
+	else 
+	{
+		actionID *= 1;
+
+		switchCurrentHero(actionID);
 	}
 	state = PlayerAttack;
+}
+
+void CombatManager::switchCurrentHero(int id)
+{
+	Player* swap = company[currentHero];
+
+	company[currentHero] = company[id];
+
+	company[id] = swap;
 }
 
 bool CombatManager::update()
@@ -59,7 +77,7 @@ bool CombatManager::update()
 	
 		case Victory:
 			std::cout << "victory" << std::endl;
-			UI::setTextMessage("bravo, tu as vaincu " + horde[0]->getName());
+			UI::setTextMessage((horde.size() > 1)?"tu as vaincu la horde !":("Tu as vaincu " + horde[0]->getName() + "!"));
 			// we display the loot won and XP
 			break;
 
@@ -102,6 +120,7 @@ void CombatManager::updateState()
 					break;
 				}
 				currentEnnemy++;
+				//state = CombatState::PlayerTurnStart;
 			}
 			if (priority)
 				state = CombatState::EnemyAttack;
@@ -147,4 +166,31 @@ Player *CombatManager::getCurrentHero()
 Enemy*CombatManager::getCurrentEnemy()
 {
 	return horde[currentEnnemy];
+}
+
+bool CombatManager::HasMultipleHeroes()
+{
+	return getNbHeroAlive() > 1;
+}
+
+
+unsigned int CombatManager::getIDCurrentHero()
+{
+	return currentHero;
+}
+
+unsigned int CombatManager::getNbHeroAlive()
+{
+	unsigned int i = currentHero;
+	while (i < company.size())
+	{
+		i++;
+	}
+	return i;
+
+}
+
+std::vector<Player*> CombatManager::getCompany()
+{
+	return company;
 }

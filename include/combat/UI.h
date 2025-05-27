@@ -13,13 +13,15 @@ private:
 	static bool isDisplayingText;
 	static std::string textToDisplay;
 	static bool hasClickedThisFrame;
-	
-	static void useAttack(unsigned int i, CombatManager *manager);
+	static bool SelectHero;
+
+	static void useAttack(int i, CombatManager *manager);
 
 	static void setSelectWindow();
 	static void setFightWindow();
 
 	static void displaySelectWindow(CombatManager *manager);
+	static void displaySelectHeroWindow(CombatManager *manager);
 	static void displayFightWindow(Player *player, Enemy *enemy);
 
 	static void displayTextMessage(CombatManager *manager);

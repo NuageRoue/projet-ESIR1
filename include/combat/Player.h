@@ -1,7 +1,7 @@
 #ifndef __PLAYER_H__
 #define __PLAYER_H__
 
-#include "Entity.h"
+#include <combat/Entity.h>
 #include "Item.h"
 
 #include <vector>
