@@ -75,6 +75,11 @@ void Game::gameLoop()
 
 void Game::endGame()
 {
+    EventHandler &event = EventHandler::getInstance();
+    event.update();
+    while(event.isQuitting()==false){
+        
+    }
     std::cout << "Shutting down game manager" << std::endl;
     GameManager::finalize();
 
