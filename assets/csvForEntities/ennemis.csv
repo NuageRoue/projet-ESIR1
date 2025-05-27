@@ -1,0 +1,12 @@
+﻿name;maxHP;normalSpeed;attacks;lootXP;lootTable;texturePath
+Loup;70.0;15;wolfAttacks;50;wolfTable;wolf.png
+Ours;100.0;5;bearAttacks;100;bearTable;bear.png
+Sylvestre;200.0;6;sylvAttacks;120;sylvTable;sylv.png
+Fungi;50.0;10;fungiAttacks;50;fungiTable;fungi.png
+Araignée géante;75.0;12;spiderAttacks;70;spiderTable;spider.png
+Golem;150.0;6;golemAttacks;120;golemTable;golem.png
+Golem de glace;120.0;8;iceGolemAttacks;130;iceGolemTable;iceGolem.png
+Démon;200.0;15;demonAttacks;150;demonTable;demon.png
+Esprit;150.0;20;ghostAttacks;120;ghostTable;ghost.png
+Dragon;300.0;15;dragonAttacks;200;dragonTable;dragon.png
+Chevalier déchu;250.0;20;knightAttacks;250;knightTable;knight.png

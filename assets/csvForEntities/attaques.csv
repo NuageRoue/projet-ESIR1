@@ -1,0 +1,49 @@
+﻿name;ppMax;damage;category;type;Description
+Taille;-1;5;brianAttacks;attackToLife;
+Coup de pommeau;5;10;brianAttacks;attackToLife;Réduit la vitesse de l'ennemi
+Entaille;5;15;brianAttacks;attackToLife;
+Estoc;3;20;brianAttacks;attackToLife;
+Boule de feu;-1;13;ryannAttacks;attackToLife;
+Assomme;10;2;ryannAttacks;attackToLife;Réduit beaucoup la vitesse de l'ennemi
+Soin;10;8;ryannAttacks;attackToHeal;Heal
+Charge;10;5;ryannAttacks;attackToLife;Augmente sa vitesse
+Coup de dague;-1;6;adrienneAttacks;attackToLife;
+Danse des lames;3;15;adrienneAttacks;attackToLife;Augmente sa vitesse
+Parade;5;0;adrienneAttacks;attackToLife;Augmente sa vitesse
+Égorgement;1;35;adrienneAttacks;attackToLife;
+Griffure;-1;5;woflAttacks;attackToLife;
+Morsure;5;8;wolfAttacks;attackToLife;
+Déchirure;-1;10;bearAttacks;attackToLife;
+Morsure;5;15;bearAttacks;attackToLife;
+Coup de feuille;-1;1;sylvAttacks;attackToLife;
+Coup de liane;5;3;sylvAttacks;attackToLife;
+Pousse;5;10;sylvAttacks;attackToHeal;Heal
+Embranchage;5;15;sylvAttacks;attackToLife;
+Envoie de spores;-1;0;fungiAttacks;attackToHeal;Heal
+Champipoing;5;12;fungiAttacks;attackToLife;
+Croc;-1;5;spiderAttacks;attackToLife;
+Toile;7;9;spiderAttacks;attackToLife;
+Charge;5;13;spiderAttacks;attackToLife;
+Écrasement;1;17;spiderAttacks;attackToLife;
+Coup de poing;-1;8;golemAttacks;attackToLife;
+Écrase;6;12;golemAttacks;attackToLife;
+Brise-côtes;4;16;golemAttacks;attackToLife;
+Masse de boue;2;20;golemAttacks;attackToLife;
+Givre-poing;-1;10;iceGolemAttacks;attackToLife;
+Écrase;6;12;iceGolemAttacks;attackToLife;
+Gèle;4;14;iceGolemAttacks;attackToLife;
+Masse de glace;2;22;iceGolemAttacks;attackToLife;
+Griffure;-1;12;demonAttacks;attackToLife;
+Brûlure;5;15;demonAttacks;attackToLife;
+Vide-sang;5;20;demonAttacks;attackToLife;
+Brûle-sang;5;25;demonAttacks;attackToLife;
+Hante;-1;1;ghostAttacks;attackToLife;
+Vole-vie;10;30;ghostAttacks;attackToLife;
+Morsure;-1;20;dragonAttacks;attackToLife;
+Brûlure;5;25;dragonAttacks;attackToLife;
+Écrasement;10;27;dragonAttacks;attackToLife;
+Crache flammes;5;35;dragonAttacks;attackToLife;
+Taille;-1;25;knightAttacks;attackToLife;
+Coup de pommeau;5;30;knightAttacks;attackToLife;
+Entaille;5;35;knightAttacks;attackToLife;
+Estoc;3;40;knightAttacks;attackToLife;

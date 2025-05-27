@@ -11,13 +11,13 @@
 class Player;
 class Attack;
 
-class Enemy : public Entity{
+class Enemy : public EntityCombat{
     protected:
     double lootXP;
     std::vector<std::tuple<Item*, double>> lootTable;
 
     public:
-    Enemy(double _maxHP, unsigned int _speed, std::string _name, double _lootXP, std::vector<Attack*> _attacks);
+    Enemy(double _maxHP, unsigned int _speed, std::string _name, double _lootXP, std::vector<Attack*> _attacks, std::string _texturePath);
     virtual ~Enemy() = default;
 
     Attack * chooseAttack() const;

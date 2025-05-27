@@ -1,72 +1,96 @@
-#include <iostream>
-#include "combat/Attack.h"
-#include "combat/Enemy.h"
-#include "combat/Entity.h"
-#include "combat/Item.h"
-#include "combat/Player.h"
-
+#include <SDL.h>
+#include <combat/AttackToLife.h>
+#include <combat/CombatManager.h>
+#include <combat/Enemy.h>
+#include <combat/Player.h>
+#include <combat/UI.h>
 #include <vector>
-
-int main()
+int main(int, char **)
 {
-    std::vector<Item*> items;
+    // Création des attaques pour le joueur
+    std::vector<Attack *> playerAttacks;
+    playerAttacks.push_back(new AttackToLife(-1, "Attaque héros 1", 10));
+    playerAttacks.push_back(new AttackToLife(1, "Attack héros 2", 15));
+    playerAttacks.push_back(new AttackToLife(20, "Attack héros 3", 20));
+    playerAttacks.push_back(new AttackToLife(25, "Attack héros 4", 2500));
 
-    Attack * questionS = new Attack(20, 3, "Comment tu t'appelles ?");
-    Attack * interjectionB = new Attack(15, -1, "Nan mais !");
-    Attack *  insulte = new Attack(5, -1, "Insulte");
-    Attack *  souffle = new Attack(10, 2, "Soufflement du nez");
+    // Création d'un vecteur d'items vide pour le joueur
+    std::vector<Item *> playerItems;
 
-    std::vector<Attack*> attacksPlayer;
-    attacksPlayer.push_back(insulte);
-    attacksPlayer.push_back(souffle);
-    std::vector<Attack*> attacksEnemy;
-    attacksEnemy.push_back(questionS);
-    attacksEnemy.push_back(interjectionB);
+    // Création du joueur
+    Player *player = new Player(100.0, 10, "Martin", playerAttacks, playerItems, "assets/entities/dragon.png");
 
-    Player player(20.0, 50, "MARTIN", attacksPlayer, items);
-    Enemy enemy(15.0, 30, "NIELS", 100, attacksEnemy);
+    // Création d'un vecteur de joueurs contenant un seul joueur
+    std::vector<Player *> players;
+    players.push_back(player);
 
-    
+    // Création des attaques pour l'ennemi
+    std::vector<Attack *> enemyAttacks;
+    enemyAttacks.push_back(new AttackToLife(5, "Enemy Attack 1", 5));
+    enemyAttacks.push_back(new AttackToLife(8, "Enemy Attack 2", 8));
 
-    while(player.getActualHP() > 0 && enemy.getActualHP() > 0)
+    // Création de l'ennemi
+    Enemy *enemy = new Enemy(80.0, 8, "Niels >:(", 50.0, enemyAttacks, "assets/entities/dragon.png");
+    // playerAttacks[3]->attack(player, enemy);
+    //  Création d'un vecteur d'ennemis contenant un seul ennemi
+    std::vector<Enemy *> enemies;
+    enemies.push_back(enemy);
+
+    /* ------------------------------------------ */
+    CombatManager manager(players, enemies);
+
+    if (SDL_Init(SDL_INIT_VIDEO) != 0)
     {
-        std::vector<Entity*> priorityList;
-        if (player.getSpeed()>=enemy.getSpeed())
+        SDL_Log("SDL_Init error: %s", SDL_GetError());
+        return -1;
+    }
+
+    SDL_Window *window = SDL_CreateWindow("ImGui SDL2 Renderer2", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800,
+                                          600, SDL_WINDOW_SHOWN);
+
+    if (!window)
+    {
+        SDL_Log("SDL_CreateWindow error: %s", SDL_GetError());
+        SDL_Quit();
+        return -1;
+    }
+
+    SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
+    if (!renderer)
+    {
+        SDL_Log("SDL_CreateRenderer error: %s", SDL_GetError());
+        SDL_DestroyWindow(window);
+        SDL_Quit();
+        return -1;
+    }
+
+    UI::setupUI(window, renderer);
+
+    bool run = true;
+    SDL_Event event;
+
+    while (run)
+    {
+        while (SDL_PollEvent(&event))
         {
-            priorityList.push_back(&player);
-            priorityList.push_back(&enemy);
-        }else{
-            priorityList.push_back(&enemy);
-            priorityList.push_back(&player);
+            UI::processEvent(&event);
+            if (event.type == SDL_QUIT)
+                run = false;
         }
-        Attack * actualAttack;
+        manager.update();
+        UI::displayUI(&manager);
 
-        std::cout << priorityList[1]->getName() << " a " << priorityList[1]->getActualHP() << "HP" << std::endl;
-        actualAttack = priorityList[0]->chooseAttack();
-        priorityList[0]->attack(priorityList[1],actualAttack);
-        std::cout << priorityList[0]->getName() <<" a fait " << actualAttack->getAttackDmg() << " dégâts a " 
-        << priorityList[1]->getName() << " avec " << actualAttack->getName() << std::endl;
-        std::cout << priorityList[1]->getName() << " a " << priorityList[1]->getActualHP() << "HP" << std::endl;
-        std::cout << "________________________________________" << std::endl;
-
-        if (priorityList[1]->getActualHP() <= 0) {break;}
-
-        std::cout << priorityList[0]->getName() << " a " << priorityList[0]->getActualHP() << "HP" << std::endl;
-        actualAttack = priorityList[1]->chooseAttack();
-        priorityList[1]->attack(priorityList[0],actualAttack);
-        std::cout << priorityList[1]->getName() <<" a fait " << actualAttack->getAttackDmg() << " dégâts a " 
-        << priorityList[0]->getName() << " avec " << actualAttack->getName() << std::endl;
-        std::cout << priorityList[0]->getName() << " a " << priorityList[0]->getActualHP() << "HP" << std::endl;
-        std::cout << "________________________________________" << std::endl;
+        SDL_SetRenderDrawColor(renderer, 114, 144, 154, 255);
+        SDL_RenderClear(renderer);
+        UI::render(renderer);
+        SDL_RenderPresent(renderer);
     }
-    //vous avez gagné
-    if (player.getActualHP() > 0)
-    {
-        std::cout << "Bravo ! Vous avez vaincu " << enemy.getName() << " !" << std::endl;
-        std::cout << "Vous avez gagné " << enemy.getXP() << " XP." << std::endl;
-        player.increaseXP(enemy.getXP());
-    }else{
-        std::cout << enemy.getName() << " vous a vaincu :(" << std::endl;
-    }
-    
+
+    UI::flushUI();
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+
+    return 0;
 }

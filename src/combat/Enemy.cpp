@@ -6,8 +6,8 @@
 #include <iostream>
 #include <tuple>
 
-Enemy::Enemy(double _maxHP, unsigned int _speed, std::string _name, double _lootXP, std::vector<Attack*> _attacks)
-:Entity(_maxHP, _speed, _name, _attacks), lootXP(_lootXP)
+Enemy::Enemy(double _maxHP, unsigned int _speed, std::string _name, double _lootXP, std::vector<Attack*> _attacks, std::string _texturePath)
+:EntityCombat(_maxHP, _speed, _name, _attacks, _texturePath), lootXP(_lootXP)
 {}
 
 Attack * Enemy::chooseAttack() const{

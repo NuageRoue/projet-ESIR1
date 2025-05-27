@@ -1,11 +1,12 @@
-#ifndef __ENTITY_H__
-#define __ENTITY_H__
+#ifndef __EntityCombat_H__
+#define __EntityCombat_H__
 
 #include "Attack.h"
+#include <graphics/texture/Texture.h>
 
 #include <vector>
 
-class Entity {
+class EntityCombat {
     protected:
     double maxHP;
     double actualHP;
@@ -13,16 +14,18 @@ class Entity {
     unsigned int normalSpeed;
     std::vector<Attack*> attacks;
     std::string name;
+    Texture texture;
+
 
     unsigned int level;
     double buff;
 
     public:
-    Entity(double _maxHP, unsigned int _speed, std::string _name, std::vector<Attack*> _attacks);
-    virtual ~Entity();
+    EntityCombat(double _maxHP, unsigned int _speed, std::string _name, std::vector<Attack*> _attacks, std::string _texturePath);
+    virtual ~EntityCombat();
 
-    //Entity(const Entity& that);
-    //Entity& operator=(const Entity& that);
+    //EntityCombat(const EntityCombat& that);
+    //EntityCombat& operator=(const EntityCombat& that);
 
     const double & getMaxHP() const;
     const double & getActualHP() const;
@@ -37,8 +40,8 @@ class Entity {
 
     void decreaseHP(double dmg);
 
-    //void attack(Entity *target, Attack *attack);
+    //void attack(EntityCombat *target, Attack *attack);
 };
 
 
-#endif //__ENTITY_H__
+#endif //__EntityCombat_H__

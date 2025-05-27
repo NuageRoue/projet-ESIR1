@@ -1,12 +1,16 @@
 #include "combat/Entity.h"
+#include <graphics/texture/Texture.h>
+#include <graphics/texture/TextureManager.h>
 
 #include <cassert>
 
-Entity::Entity(double _maxHP, unsigned int _speed, std::string _name, std::vector<Attack*> _attacks)
+EntityCombat::EntityCombat(double _maxHP, unsigned int _speed, std::string _name, std::vector<Attack*> _attacks, std::string _texturePath)
 : maxHP(_maxHP), actualHP(_maxHP), speed(_speed), name(_name), attacks(_attacks), normalSpeed(_speed)
-{}
+{
+    texture(loadTexture(_texturePath,"Texture "+_texturePath));
+}
 
-Entity::~Entity()
+EntityCombat::~EntityCombat()
 {
     for(int i = 0; i < attacks.size(); i++)
     {
@@ -14,7 +18,7 @@ Entity::~Entity()
     }
 }
 
-/*Entity::Entity(const Entity &that)
+/*EntityCombat::EntityCombat(const EntityCombat &that)
 {
     maxHP = that.getMaxHP();
     actualHP = that.getActualHP();
@@ -25,7 +29,7 @@ Entity::~Entity()
     }
 }
 
-Entity& Entity::operator=(const Entity& that)
+EntityCombat& EntityCombat::operator=(const EntityCombat& that)
 {
     if (this != &that)
     {
@@ -40,32 +44,32 @@ Entity& Entity::operator=(const Entity& that)
     return *this;
 }*/
 
-const double &Entity::getMaxHP() const
+const double &EntityCombat::getMaxHP() const
 {
     return maxHP;
 }
 
-const double &Entity::getActualHP() const
+const double &EntityCombat::getActualHP() const
 {
     return actualHP;
 }
 
-const unsigned int Entity::getSpeed() const
+const unsigned int EntityCombat::getSpeed() const
 {
     return speed;
 }
 
-const std::string &Entity::getName() const 
+const std::string &EntityCombat::getName() const 
 {
     return name;
 }
 
-const std::vector<Attack*> &Entity::getAttacks() const
+const std::vector<Attack*> &EntityCombat::getAttacks() const
 {
     return attacks;
 }
 
-void Entity::decreaseHP(double dmg)
+void EntityCombat::decreaseHP(double dmg)
 {
     std::cout << "decreasing hp" << std::endl;
     assert(getActualHP()>0);
@@ -79,21 +83,21 @@ void Entity::decreaseHP(double dmg)
     }*/
 }
 
-const double Entity::getBuff() const
+const double EntityCombat::getBuff() const
 {
 	return buff;
 }
-double &Entity::getBuff()
+double &EntityCombat::getBuff()
 {
 	return buff;
 }
 
-const unsigned int Entity::getLevel() const
+const unsigned int EntityCombat::getLevel() const
 {
 	return level;
 }
 
-/*void Entity::attack(Entity *target, Attack *attack)
+/*void EntityCombat::attack(EntityCombat *target, Attack *attack)
 {
     double dmg;
     if (attack->canAttack())

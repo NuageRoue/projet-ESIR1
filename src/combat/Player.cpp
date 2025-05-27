@@ -4,8 +4,8 @@
 #include <iostream>
 #include <cassert>
 
-Player::Player(double _maxHP, unsigned int _speed, std::string _name, std::vector<Attack*> _attacks, std::vector<Item*> _items)
-:Entity(_maxHP, _speed, _name, _attacks), items(_items), xp(0), level(1), levelCap(100)
+Player::Player(double _maxHP, unsigned int _speed, std::string _name, std::vector<Attack*> _attacks, std::vector<Item*> _items, std::string _texturePath)
+:EntityCombat(_maxHP, _speed, _name, _attacks, _texturePath), items(_items), xp(0), level(1), levelCap(100)
 {}
 
 Player::~Player()
