@@ -22,7 +22,7 @@ class Attack{
         //const double & getAttackDmg() const;
         
 
-	virtual void attack(Entity *caster, Entity *target) = 0;
+	virtual void attack(Entity *caster, Entity *target);
 
 	const int getPPMax() const;
         const int getPPActual() const;

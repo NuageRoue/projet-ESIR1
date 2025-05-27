@@ -56,20 +56,34 @@ void UI::displaySelectWindow(CombatManager *manager)
     if (disabled)
         ImGui::BeginDisabled();
 
+	std::string message;
     ImGui::SetCursorPos(ImVec2(100, 40));
-    if (player->getAttacks()[0]->canAttack() && ImGui::Button(player->getAttacks()[0]->getName().data(), ImVec2(250, 40)))
+
+	message = player->getAttacks()[0]->getName();
+	if (player->getAttacks()[0]->getPPActual() >= 0)
+		message += ": " + std::to_string(player->getAttacks()[0]->getPPActual()) + "/" + std::to_string(player->getAttacks()[0]->getPPMax());
+    if (player->getAttacks()[0]->canAttack() && ImGui::Button(message.data(), ImVec2(250, 40)))
         useAttack(0, manager);
 
     ImGui::SetCursorPos(ImVec2(450, 40));
-    if (player->getAttacks()[1]->canAttack() && ImGui::Button(player->getAttacks()[1]->getName().data(), ImVec2(250, 40)))
+	message = player->getAttacks()[1]->getName();
+	if (player->getAttacks()[1]->getPPActual() >= 0)
+		message += ": " + std::to_string(player->getAttacks()[1]->getPPActual()) + "/" + std::to_string(player->getAttacks()[1]->getPPMax());
+    if (player->getAttacks()[1]->canAttack() && ImGui::Button(message.data(), ImVec2(250, 40)))
         useAttack(1, manager);
 
     ImGui::SetCursorPos(ImVec2(100, 120));
-    if (player->getAttacks()[2]->canAttack() && ImGui::Button(player->getAttacks()[2]->getName().data(), ImVec2(250, 40)))
+	message = player->getAttacks()[2]->getName();
+	if (player->getAttacks()[2]->getPPActual() >= 0)
+		message += ": " + std::to_string(player->getAttacks()[2]->getPPActual()) + "/" + std::to_string(player->getAttacks()[2]->getPPMax());
+    if (player->getAttacks()[2]->canAttack() && ImGui::Button(message.data(), ImVec2(250, 40)))
         useAttack(2, manager);
 
     ImGui::SetCursorPos(ImVec2(450, 120));
-    if (player->getAttacks()[3]->canAttack() && ImGui::Button(player->getAttacks()[3]->getName().data(), ImVec2(250, 40)))
+	message = player->getAttacks()[3]->getName();
+	if (player->getAttacks()[3]->getPPActual() >= 0)
+		message += ": " + std::to_string(player->getAttacks()[3]->getPPActual()) + "/" + std::to_string(player->getAttacks()[3]->getPPMax());
+    if (player->getAttacks()[3]->canAttack() && ImGui::Button(message.data(), ImVec2(250, 40)))
         useAttack(3, manager);
 
     if (disabled)

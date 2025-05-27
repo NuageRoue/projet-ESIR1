@@ -114,12 +114,12 @@ void CombatManager::updateState()
 			// update heroLife with saved attack;
 			if (company[currentHero]->getActualHP() <= 0)
 			{
-				currentHero++;
-				if (currentHero >= company.size())
+				if (currentHero +1 >= company.size())
 				{
 					state = Defeat;
 					break;
 				}
+				currentHero++;
 			}
 			if (priority)
 			{

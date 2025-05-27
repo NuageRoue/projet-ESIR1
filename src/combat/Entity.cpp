@@ -69,7 +69,8 @@ void Entity::decreaseHP(double dmg)
 {
     std::cout << "decreasing hp" << std::endl;
     assert(getActualHP()>0);
-    actualHP -= dmg;
+    actualHP = (actualHP - dmg > 0)? actualHP - dmg: 0;
+    
     /*if(actualHP - dmg >= 0)
     {
         actualHP -= dmg;

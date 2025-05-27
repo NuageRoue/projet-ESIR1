@@ -1,9 +1,9 @@
 #include "combat/Attack.h"
+#include "combat/Entity.h"
 
 Attack::Attack(int _ppMax, std::string _name)
 : ppMax(_ppMax), ppActual(_ppMax), name(_name)
 {}
-
 /*
 Attack::Attack(const Attack &that)
 {
@@ -52,4 +52,11 @@ bool Attack::canAttack()
 void Attack::decreasePP()
 {
     --ppActual;
+}
+
+
+void Attack::attack(Entity*caster, Entity*target)
+{
+	decreasePP();
+
 }

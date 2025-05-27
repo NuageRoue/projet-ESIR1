@@ -12,6 +12,7 @@ void AttackToLife::attack(Entity *caster, Entity *target)
 {
 	std::cout << "attacking" << std::endl;
 	target->decreaseHP(damage);//(caster->getBuff() * (1 + 0.1 * caster->getLevel()) * damage);
+	Attack::attack(caster,target);
 }
 
 std::string AttackToLife::attackMessage(Entity *caster, Entity *target)

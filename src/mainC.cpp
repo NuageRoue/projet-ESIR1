@@ -10,7 +10,7 @@ int main(int, char**)
 // Création des attaques pour le joueur
     std::vector<Attack*> playerAttacks;
     playerAttacks.push_back(new AttackToLife(-1, "Attaque héros 1", 10));
-    playerAttacks.push_back(new AttackToLife(15, "Attack héros 2", 15));
+    playerAttacks.push_back(new AttackToLife(1, "Attack héros 2", 15));
     playerAttacks.push_back(new AttackToLife(20, "Attack héros 3", 20));
     playerAttacks.push_back(new AttackToLife(25, "Attack héros 4", 2500));
 
