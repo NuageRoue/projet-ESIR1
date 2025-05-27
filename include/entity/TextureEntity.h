@@ -24,6 +24,7 @@ class TextureEntity : public Entity
     void update() override;
 
     void changeTexture(Texture *texture);
+    Texture *getTexture();
 };
 
 #endif

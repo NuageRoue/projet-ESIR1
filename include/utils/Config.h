@@ -21,7 +21,7 @@ static constexpr char playerTexture2[] = "./assets/tiles/player2.png";
 static constexpr int mapTexturePlage = 10;
 
 static const std::vector<std::string> mapTextures = {"assets/tiles/BRICK2.png", "assets/tiles/water2.png",
-                                                     "assets/tiles/lava2.png", "assets/tiles/stairs.png"};
+                                                     "assets/tiles/lava2.png", "assets/tiles/stairs.png", "assets/tiles/end.png"};
 
 static const std::vector<std::string> mapGrass = {"assets/tiles/grass1.png", "assets/tiles/grass2.png",
                                                   "assets/tiles/grass3.png", "assets/tiles/grass4.png"};

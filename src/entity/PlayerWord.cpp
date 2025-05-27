@@ -9,7 +9,7 @@
 #include <game/GameManager.h>
 
 PlayerWord::PlayerWord(const Vector2F &position)
-    : TextureEntity(position, Config::playerTag, Config::playerLayer, Config::playerTexture)
+    : TextureEntity(position, Config::playerTag, Config::playerLayer, Config::playerTexture), m_rotation(M_PI * 3)
 {
 }
 
@@ -62,6 +62,7 @@ void PlayerWord::update()
 
     if (delta != Vector2F(0, 0))
     {
+        
         if (delta[0] == -1)
         {
             changeTexture(TextureManager::getInstance().loadTexture(Config::playerTexture,
@@ -81,6 +82,7 @@ void PlayerWord::update()
         // verif si on peut se deplacer
         if (std::find(Config::mapCollision.begin(), Config::mapCollision.end(), type) == Config::mapCollision.end())
         {
+            m_rotation = -m_rotation;
             const Vector2F temp = getPosition();
             setPosition(next);
 
@@ -99,7 +101,7 @@ void PlayerWord::render(const Vector2F &ref)
 
     setPosition(last + ref); // mais wesh
 
-    TextureEntity::render(ref);
+    Renderer::getInstance().drawTexture(getTexture(), getPosition(), Vector2F(Config::tile, Config::tile), m_rotation);
 
     setPosition(last);
 }

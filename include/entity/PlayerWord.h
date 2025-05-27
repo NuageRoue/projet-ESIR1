@@ -7,6 +7,7 @@ class PlayerWord : public TextureEntity
 {
   private:
     Vector2I m_grid;
+    float m_rotation;
 
   public:
     PlayerWord(const Vector2F &position);

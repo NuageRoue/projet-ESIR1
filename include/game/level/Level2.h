@@ -15,8 +15,12 @@ class Level2 : public LevelBase
                     std::unique_ptr<EndMap>(nullptr))
     {
         Vector2F fin = m_map->getTaille();
-        Vector2F fin_valide = Vector2F(fin[0] - 2, fin[1] - 2);
-        m_endmap = std::unique_ptr<EndMap>(new EndMap(fin_valide));
+        Vector2I fin_valide = Vector2I(fin[0] - 2, fin[1] - 2);
+
+        m_map->setType(fin_valide, Config::startNormalPlage + 4);
+
+        Vector2F fin_validef = Vector2F(fin[0] - 2, fin[1] - 2);
+        m_endmap = std::unique_ptr<EndMap>(new EndMap(fin_validef));
     }
 
     std::unique_ptr<LevelBase> getNextLevel() override

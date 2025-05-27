@@ -27,3 +27,8 @@ void TextureEntity::changeTexture(Texture *texture)
 {
     m_texture = texture;
 }
+
+Texture *TextureEntity::getTexture()
+{
+    return m_texture;
+}

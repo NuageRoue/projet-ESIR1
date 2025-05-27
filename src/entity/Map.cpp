@@ -70,6 +70,11 @@ int Map::getType(const Vector2I &v) const
     return m_map.at(v[1]).at(v[0]);
 }
 
+void Map::setType(const Vector2I &v, int val)
+{
+    m_map.at(v[1]).at(v[0]) = val;
+}
+
 void Map::render(const Vector2F &ref)
 {
     int type;
@@ -89,6 +94,7 @@ void Map::render(const Vector2F &ref)
     }
 }
 
-Vector2F Map::getTaille(){
-    return Vector2F(m_unitX,m_unitY);
+Vector2F Map::getTaille()
+{
+    return Vector2F(m_unitX, m_unitY);
 }
