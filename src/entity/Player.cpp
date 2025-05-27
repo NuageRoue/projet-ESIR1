@@ -54,9 +54,8 @@ void Player::update()
             const Vector2F temp = getPosition();
             setPosition(next);
 
-            const float rand = static_cast<double>(random()) / std::numeric_limits<double>::max();
-            std::cout << rand << std::endl;
-            if (rand > 0.8f)
+            const int rand = random() & 100;
+            if (rand > 80)
             {
                 std::cout << "Combat !" << std::endl;
             }
