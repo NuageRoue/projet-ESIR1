@@ -35,9 +35,9 @@ private:
 public:
 	CombatManager(std::vector<Player*> company, std::vector<Enemy*> horde);
 	
-	void update(); // changes combat state
+	bool update(); // changes combat state
 	
-	void handlePlayerInput(unsigned int actionID);
+	void handlePlayerInput(int actionID);
 
 	void updateState();
 
