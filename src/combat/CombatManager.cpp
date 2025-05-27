@@ -9,7 +9,7 @@ CombatManager::CombatManager(std::vector<Player*> company, std::vector<Enemy*> h
 : state(CombatManager::CombatState::nullState), horde(horde), currentEnnemy(0), company(company), currentHero(0), currentAttack(nullptr)
 {}
 
-void CombatManager::handlePlayerInput(unsigned int actionID)
+void CombatManager::handlePlayerInput(int actionID)
 {
 	std::cout << "combat manager: receiving" << actionID << std::endl;
 	switch (actionID) 
@@ -24,7 +24,7 @@ void CombatManager::handlePlayerInput(unsigned int actionID)
 	state = PlayerAttack;
 }
 
-void CombatManager::update()
+bool CombatManager::update()
 {
 	//std::cout << state << std::endl;
 	switch (state) 
@@ -71,6 +71,8 @@ void CombatManager::update()
 		case PlayerAttackDone:
 			break;
 	}
+
+	return (state == Victory || state == Defeat);
 }
 
 void CombatManager::updateState()
