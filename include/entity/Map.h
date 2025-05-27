@@ -6,7 +6,7 @@
 #include <entity/Entity.h>
 
 #include <memory>
-#include <vector>
+#include <unordered_map>
 
 class Map : public Entity
 {
@@ -15,7 +15,7 @@ class Map : public Entity
     unsigned int m_unitY;
 
     std::vector<std::vector<int>> m_map;
-    std::vector<Texture *> m_textures;
+    std::unordered_map<int, Texture *> m_textures;
 
   public:
     /// Constructeur du héros

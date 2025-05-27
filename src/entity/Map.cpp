@@ -7,18 +7,44 @@
 Map::Map(const Vector2F &position, const std::string &name, std::vector<std::vector<int>> map)
     : Entity(position, name, 0), m_map(map), m_unitX(0), m_unitY(0), m_textures()
 {
-    {
-        int index = 0;
-        TextureManager &manager = TextureManager::getInstance();
-        for (const std::string &file : Config::mapTextures)
-        {
-            ++index;
-            m_textures.push_back(manager.loadTexture(file, name + std::to_string(index)));
-        }
-    }
+    TextureManager &manager = TextureManager::getInstance();
 
     m_unitY = m_map.size();
     m_unitX = m_map.front().size();
+
+    {
+        int index = 0;
+        for (const std::string &file : Config::mapGrass)
+        {
+            m_textures[index] = manager.loadTexture(file, name + std::to_string(index));
+            ++index;
+        }
+
+        int type;
+        for (unsigned int row = 0; row < m_unitY; ++row)
+        {
+            for (unsigned int column = 0; column < m_unitX; ++column)
+            {
+                if (m_map.at(row).at(column) == 0)
+                {
+                    m_map.at(row).at(column) = random() & (Config::mapGrass.size() - 1);
+                }
+                else
+                {
+                    m_map.at(row).at(column) += 9;
+                }
+            }
+        }
+    }
+
+    {
+        int index = 10;
+        for (const std::string &file : Config::mapTextures)
+        {
+            m_textures[index] = manager.loadTexture(file, name + std::to_string(index));
+            ++index;
+        }
+    }
 }
 
 void Map::update()
@@ -44,7 +70,7 @@ void Map::render(const Vector2F &ref)
             SDL_Rect destRect = {column * Config::tile + ref[0], row * Config::tile + ref[1], Config::tile,
                                  Config::tile};
 
-            renderer.drawTexture(m_textures.at(type)->getSDL(), nullptr, &destRect);
+            renderer.drawTexture(m_textures[type]->getSDL(), nullptr, &destRect);
         }
     }
 }
