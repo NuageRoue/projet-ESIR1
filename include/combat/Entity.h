@@ -14,7 +14,7 @@ class EntityCombat {
     unsigned int normalSpeed;
     std::vector<Attack*> attacks;
     std::string name;
-    Texture texture;
+    Texture *texture;
 
 
     unsigned int level;

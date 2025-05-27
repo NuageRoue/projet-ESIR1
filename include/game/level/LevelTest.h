@@ -3,7 +3,7 @@
 
 #include <utils/Reader.h>
 
-#include <game/level/Level2.h>
+#include <game/level/LevelGrotte.h>
 #include <game/level/LevelBase.h>
 
 class LevelTest : public LevelBase
@@ -18,7 +18,7 @@ class LevelTest : public LevelBase
 
     std::unique_ptr<LevelBase> getNextLevel() override
     {
-        return std::unique_ptr<LevelBase>(new Level2());
+        return std::unique_ptr<LevelBase>(new LevelGrotte());
     }
 
     ~LevelTest() override = default;

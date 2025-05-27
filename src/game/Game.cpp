@@ -74,8 +74,6 @@ void Game::gameLoop()
     }
 }
 
-#include <cmath>
-
 void Game::endGame()
 {
     {
@@ -84,15 +82,12 @@ void Game::endGame()
         Texture *texture = TextureManager::getInstance().loadTexture("assets/fini.png", "textureFin");
         Renderer &render = Renderer::getInstance();
 
-        float rotation = 0.0f;
-
         while (event.isQuitting() == false)
         {
             event.update();
             render.drawTexture(texture, Vector2F(Config::width, Config::height) / 2,
-                               Vector2F(Config::width, Config::height), rotation);
+                               Vector2F(Config::width, Config::height), 0.0f);
             render.render();
-            rotation += 0.001f;
         }
     }
 

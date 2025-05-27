@@ -4,15 +4,16 @@
 
 #include <cassert>
 
-EntityCombat::EntityCombat(double _maxHP, unsigned int _speed, std::string _name, std::vector<Attack*> _attacks, std::string _texturePath)
-: maxHP(_maxHP), actualHP(_maxHP), speed(_speed), name(_name), attacks(_attacks), normalSpeed(_speed)
+EntityCombat::EntityCombat(double _maxHP, unsigned int _speed, std::string _name, std::vector<Attack *> _attacks,
+                           std::string _texturePath)
+    : maxHP(_maxHP), actualHP(_maxHP), speed(_speed), name(_name), attacks(_attacks), normalSpeed(_speed),
+      texture(TextureManager::getInstance().loadTexture(_texturePath, "Texture " + _texturePath))
 {
-    texture(loadTexture(_texturePath,"Texture "+_texturePath));
 }
 
 EntityCombat::~EntityCombat()
 {
-    for(int i = 0; i < attacks.size(); i++)
+    for (int i = 0; i < attacks.size(); i++)
     {
         delete attacks[i];
     }
@@ -59,12 +60,12 @@ const unsigned int EntityCombat::getSpeed() const
     return speed;
 }
 
-const std::string &EntityCombat::getName() const 
+const std::string &EntityCombat::getName() const
 {
     return name;
 }
 
-const std::vector<Attack*> &EntityCombat::getAttacks() const
+const std::vector<Attack *> &EntityCombat::getAttacks() const
 {
     return attacks;
 }
@@ -72,9 +73,9 @@ const std::vector<Attack*> &EntityCombat::getAttacks() const
 void EntityCombat::decreaseHP(double dmg)
 {
     std::cout << "decreasing hp" << std::endl;
-    assert(getActualHP()>0);
-    actualHP = (actualHP - dmg > 0)? actualHP - dmg: 0;
-    
+    assert(getActualHP() > 0);
+    actualHP = (actualHP - dmg > 0) ? actualHP - dmg : 0;
+
     /*if(actualHP - dmg >= 0)
     {
         actualHP -= dmg;
@@ -85,16 +86,16 @@ void EntityCombat::decreaseHP(double dmg)
 
 const double EntityCombat::getBuff() const
 {
-	return buff;
+    return buff;
 }
 double &EntityCombat::getBuff()
 {
-	return buff;
+    return buff;
 }
 
 const unsigned int EntityCombat::getLevel() const
 {
-	return level;
+    return level;
 }
 
 /*void EntityCombat::attack(EntityCombat *target, Attack *attack)
