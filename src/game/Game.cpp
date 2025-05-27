@@ -35,16 +35,17 @@ void Game::initGame()
     GameManager::initialize();
 }
 
+//boucle du jeu
 void Game::gameLoop()
 {
-
     while (m_gameState != GameState::EXIT)
     {
         Timer::getInstance().start();
 
+        //recuperer touches pressees
         EventHandler &event = EventHandler::getInstance();
         event.update();
-
+        //si on appuye pour quitter
         if (event.isQuitting())
         {
             std::cout << "Exit signal detected" << std::endl;
@@ -55,6 +56,7 @@ void Game::gameLoop()
         GameManager &manager = GameManager::getInstance();
         manager.update();
 
+        //si on a atteint fin du jeu
         if (manager.finalEnd())
         {
             m_gameState = GameState::END;
@@ -78,10 +80,10 @@ void Game::endGame()
 {
     {
         EventHandler &event = EventHandler::getInstance();
-
+        //charger ecran fin
         Texture *texture = TextureManager::getInstance().loadTexture("assets/fini.png", "textureFin");
         Renderer &render = Renderer::getInstance();
-
+        //affichage ecran fin
         while (event.isQuitting() == false)
         {
             event.update();
