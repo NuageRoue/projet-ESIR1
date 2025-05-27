@@ -4,6 +4,8 @@
 
 #include <entity/Map.h>
 
+#include <iostream>
+
 Map::Map(const Vector2F &position, const std::string &name, std::vector<std::vector<int>> map)
     : Entity(position, name, 0), m_map(map), m_unitX(0), m_unitY(0), m_textures()
 {
@@ -12,37 +14,49 @@ Map::Map(const Vector2F &position, const std::string &name, std::vector<std::vec
     m_unitY = m_map.size();
     m_unitX = m_map.front().size();
 
+    for (size_t plage = 0; plage < Config::specialTexture.size(); plage++)
     {
-        int index = 0;
-        for (const std::string &file : Config::mapGrass)
-        {
-            m_textures[index] = manager.loadTexture(file, name + std::to_string(index));
-            ++index;
-        }
+        const std::vector<std::string> &current = Config::specialTexture[plage];
 
-        int type;
-        for (unsigned int row = 0; row < m_unitY; ++row)
+        for (size_t i = 0; i < current.size(); i++)
         {
-            for (unsigned int column = 0; column < m_unitX; ++column)
-            {
-                if (m_map.at(row).at(column) == 0)
-                {
-                    m_map.at(row).at(column) = random() & (Config::mapGrass.size() - 1);
-                }
-                else
-                {
-                    m_map.at(row).at(column) += 9;
-                }
-            }
+            const std::string &file = current[i];
+            int index = plage * Config::mapTexturePlage + i;
+            m_textures[index] = manager.loadTexture(file, name + std::to_string(index));
+
+            std::cout << index << " : " << file << std::endl;
         }
     }
 
+    for (size_t i = 0; i < Config::mapTextures.size(); i++)
     {
-        int index = 10;
-        for (const std::string &file : Config::mapTextures)
+        const std::string &file = Config::mapTextures[i];
+        m_textures[Config::startNormalPlage + i] =
+            manager.loadTexture(file, name + std::to_string(Config::startNormalPlage + i));
+
+        std::cout << Config::startNormalPlage + i << " : " << file << std::endl;
+    }
+
+    int type;
+    for (unsigned int row = 0; row < m_unitY; ++row)
+    {
+        for (unsigned int column = 0; column < m_unitX; ++column)
         {
-            m_textures[index] = manager.loadTexture(file, name + std::to_string(index));
-            ++index;
+            const int value = m_map.at(row).at(column);
+            if (value >= Config::specialTexture.size())
+            {
+                std::cout << value << " -> " << m_map.at(row).at(column) + Config::startNormalPlage - 1 << std::endl;
+                m_map.at(row).at(column) += Config::startNormalPlage - 1;
+            }
+            else
+            {
+                const std::vector<std::string> &current = Config::specialTexture.at(value);
+                type = value * Config::mapTexturePlage;
+
+                type += random() & (current.size() - 1);
+                std::cout << m_map.at(row).at(column) << " -> " << type << std::endl;
+                m_map.at(row).at(column) = type;
+            }
         }
     }
 }

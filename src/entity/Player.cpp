@@ -67,7 +67,7 @@ void Player::render(const Vector2F &ref)
 {
     const Vector2F last = getPosition();
 
-    setPosition(last + ref);
+    setPosition(last + ref); // mais wesh
 
     TextureEntity::render(ref);
 
